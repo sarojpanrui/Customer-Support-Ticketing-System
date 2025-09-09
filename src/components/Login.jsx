@@ -25,10 +25,11 @@ const Login = () => {
             } else if (foundUser.role.toLowerCase() === "customer") {
                 navigate("/customer");
             }
+             toast.success("Login successful!");
         } else {
             alert("Invalid username or password!");
         }
-        toast.success("Login successful!");
+       
     }
 
     return (
