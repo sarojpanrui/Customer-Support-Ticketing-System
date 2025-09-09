@@ -136,11 +136,10 @@ const Signup = () => {
         </button>
 
         {/* Link to login */}
-        <div className="flex justify-center gap-2">
-          <p className="text-center">Already have an account?</p>
-          <button className="text-blue-500 cursor-pointer" onClick={()=> navigate('/login' , {replace:true})}>Login</button>
-        </div>
-        
+        <a href="./login" className="text-center">
+          Already have an account?{" "}
+          <span className="text-blue-600">Login</span>
+        </a>
       </form>
     </div>
   );
