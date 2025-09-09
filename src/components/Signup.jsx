@@ -136,7 +136,7 @@ const Signup = () => {
         </button>
 
         {/* Link to login */}
-        <a href="/login" className="text-center">
+        <a href="./login" className="text-center">
           Already have an account?{" "}
           <span className="text-blue-600">Login</span>
         </a>
