@@ -14,9 +14,9 @@ const Card = ({ ticket }) => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "Pending": return "bg-gray-200 text-gray-800";
+      case "Open": return "bg-gray-200 text-gray-800";
       case "In Progress": return "bg-blue-400 text-white";
-      case "Completed": return "bg-green-500 text-white";
+      case "Resolved": return "bg-green-500 text-white";
       default: return "bg-gray-300 text-black";
     }
   };
