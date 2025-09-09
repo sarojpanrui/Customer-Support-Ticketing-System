@@ -1,6 +1,6 @@
 // Signup.js
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -138,7 +138,7 @@ const Signup = () => {
         {/* Link to login */}
         <div className="flex justify-center gap-2">
           <p className="text-center">Already have an account?</p>
-          <button className="text-blue-500 cursor-pointer" onClick={()=> navigate('/login')}>Login</button>
+          <button className="text-blue-500 cursor-pointer" onClick={()=> navigate('/login' , replace)}>Login</button>
         </div>
         
       </form>
