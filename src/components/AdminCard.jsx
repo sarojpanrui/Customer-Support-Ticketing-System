@@ -18,9 +18,9 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "Pending": return "bg-gray-200 text-gray-800";
+      case "Open": return "bg-gray-200 text-gray-800";
       case "In Progress": return "bg-blue-400 text-white";
-      case "Completed": return "bg-green-500 text-white";
+      case "Resolved": return "bg-green-500 text-white";
       default: return "bg-gray-300 text-black";
     }
   };
@@ -104,9 +104,9 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
               onChange={(e) => setEditedTicket({ ...editedTicket, status: e.target.value })}
               className="w-full mb-3 p-2 border rounded-lg"
             >
-              <option>Pending</option>
+              <option>Open</option>
               <option>In Progress</option>
-              <option>Completed</option>
+              <option>Resolved</option>
             </select>
 
             <div className="flex justify-end gap-2">
