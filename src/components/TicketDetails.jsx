@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const TicketDetail = () => {
   const { id } = useParams();
@@ -52,6 +53,7 @@ const TicketDetail = () => {
     setComments(updatedComments);
     localStorage.setItem("comments", JSON.stringify(updatedComments));
     setComment("");
+    toast.success('comment added...')
   }
 
   // Delete comment
@@ -59,6 +61,8 @@ const TicketDetail = () => {
     const updated = comments.filter((_, i) => i !== idx);
     setComments(updated);
     localStorage.setItem("comments", JSON.stringify(updated));
+    toast.success('Comment deleted')
+    
   }
 
   // Start editing
@@ -121,7 +125,7 @@ const TicketDetail = () => {
   }
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
+    <div className="p-6 max-w-2xl mx-auto merriweather">
       {/* Back Button */}
       <button
         className="mb-6 px-5 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl shadow-sm transition-all"
@@ -181,10 +185,10 @@ const TicketDetail = () => {
               onChange={(e) => setComment(e.target.value)}
             />
             <button
-              className=" text-center px-9 border rounded-2xl border-gray-300 bg-green-300"
+              className="border p-3 border-gray-300 rounded-2xl bg-gray-100 shadow-xs"
               type="submit"
             >
-              Add
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-icon lucide-send"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /><path d="m21.854 2.147-10.94 10.939" /></svg>
             </button>
           </form>
         </div>
@@ -203,8 +207,8 @@ const TicketDetail = () => {
                 {/* Role Tag */}
                 <span
                   className={`absolute -top-2 -left-2 px-2 py-0.5 text-xs font-semibold rounded-full ${c.role === "Admin"
-                      ? "bg-red-500 text-white"
-                      : "bg-green-500 text-white"
+                    ? "bg-red-500 text-white"
+                    : "bg-green-500 text-white"
                     }`}
                 >
                   {c.username}({c.role})
