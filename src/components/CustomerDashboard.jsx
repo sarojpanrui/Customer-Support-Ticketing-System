@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Profile from "./Profile";
 import Card from "./Card";
+import AdminCard from './AdminCard'
+import { toast } from "react-toastify";
 
 const CustomerDashboard = () => {
   const navigate = useNavigate();
@@ -9,6 +11,8 @@ const CustomerDashboard = () => {
   const [name, setName] = useState(null);
   const [userId, setUserId] = useState(null);
   const [authTickets, setAuthTickets] = useState([]);
+  const [Tickets, setTickets] = useState([]);
+
 
   // Filters
   const [priorityFilter, setPriorityFilter] = useState("All");
@@ -27,6 +31,7 @@ const CustomerDashboard = () => {
   useEffect(() => {
     if (userId) {
       const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+      setTickets(tickets);
       const filteredTickets = tickets.filter((ticket) => ticket.id === userId);
       setAuthTickets(filteredTickets);
     }
@@ -45,6 +50,29 @@ const CustomerDashboard = () => {
     return priorityMatch && statusMatch;
   });
 
+  const handleDelete = (ticketId) => {
+    const updatedTickets = authTickets.filter(
+      (ticket) => ticket.ticketId !== ticketId
+    );
+    setAuthTickets(updatedTickets);
+    localStorage.setItem("tickets", JSON.stringify(updatedTickets));
+    toast.success('Deleted successfully')
+  };
+
+  const handleUpdate = (ticketId, updatedTicket) => {
+    const now = new Date().toISOString(); // current timestamp
+
+    const updatedTickets = authTickets.map((t) =>
+      t.ticketId === ticketId
+        ? { ...t, ...updatedTicket, updatedAt: new Date().toLocaleString(), } // merge new data + timestamp
+        : t
+    );
+
+    setAuthTickets(updatedTickets);
+    localStorage.setItem("tickets", JSON.stringify(updatedTickets));
+  };
+
+
   return (
     <div className="flex flex-col md:flex-row h-screen">
       {/* Sidebar */}
@@ -55,9 +83,9 @@ const CustomerDashboard = () => {
       {/* Main Content */}
       <div className="flex-1 p-4 overflow-auto bg-gray-50">
         {/* Navbar */}
-        <nav className="border p-4 flex flex-col md:flex-row justify-between items-center gap-3 rounded-lg bg-white shadow-sm mb-6 border-gray-300">
-          <p className="text-center font-bold text-2xl md:text-3xl">
-            WELCOME {name}
+        <nav className="border p-4 flex flex-col md:flex-row justify-between items-center gap-3 rounded-lg bg-white shadow-sm mb-6 border-gray-300 merriweather">
+          <p className="text-center font-bold text-2xl md:text-3xl merriweather">
+            WELCOME,{name}
           </p>
 
           <div className="flex flex-wrap gap-3 items-center">
@@ -95,7 +123,8 @@ const CustomerDashboard = () => {
           </div>
         </nav>
 
-        {/* Tickets */}
+        {/* auth Tickets */}
+        <h1 className="text-2xl font-semibold text-center underline merriweather">Your Tickets</h1>
         {filteredTickets.length === 0 ? (
           <p className="text-gray-500 text-center mt-10">
             No tickets match the selected filters.
@@ -109,10 +138,52 @@ const CustomerDashboard = () => {
             xl:grid-cols-4"
           >
             {filteredTickets.map((ticket, index) => (
-              <Card key={index} ticket={ticket} />
+             <AdminCard
+                key={index}
+                ticket={ticket}
+                onDelete={handleDelete}
+                onUpdate={handleUpdate}
+
+              />
             ))}
           </div>
         )}
+
+        {/* all tickets */}
+
+
+        <h1 className="text-2xl font-semibold text-center underline mt-5 merriweather">All Tickets</h1>
+        {Tickets.length === 0 ? (
+          <p className="text-gray-500 text-center mt-10">
+            No tickets match the selected filters.
+          </p>
+        ) : (
+          <div
+            className="grid gap-5 mt-5 
+            sm:grid-cols-1 
+            md:grid-cols-2 
+            lg:grid-cols-3 
+            xl:grid-cols-4"
+          >
+            {Tickets.map((ticket, index) => (
+             <Card
+                key={index}
+                ticket={ticket}
+                
+
+              />
+            ))}
+          </div>
+        )}
+
+
+
+
+
+
+
+
+
       </div>
     </div>
   );

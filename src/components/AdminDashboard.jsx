@@ -58,7 +58,7 @@ const AdminDashboard = () => {
   });
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
+    <div className="flex flex-col md:flex-row h-screen ">
       {/* Sidebar */}
       <div className="w-full md:w-1/4">
         <Profile />
@@ -67,8 +67,8 @@ const AdminDashboard = () => {
       {/* Main Content */}
       <div className="flex-1 p-4 overflow-auto bg-gray-50">
         {/* Navbar */}
-        <nav className="border p-4 flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0 rounded-lg bg-white shadow-sm mb-6 border-gray-300">
-          <p className="text-center font-bold text-2xl md:text-3xl">
+        <nav className="border p-4 flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0 rounded-lg bg-white shadow-sm mb-6 border-gray-300 merriweather">
+          <p className="text-center font-bold text-2xl md:text-3xl merriweather">
             WELCOME {name}
           </p>
 
@@ -106,7 +106,11 @@ const AdminDashboard = () => {
             No tickets match the selected filters.
           </p>
         ) : (
-          <div className="grid gap-5 mt-5 flex-wrap sm:grid-cols-2 lg:grid-cols-3">
+          <div  className="grid gap-8 mt-5 
+            sm:grid-cols-1 
+            md:grid-cols-2 
+            lg:grid-cols-3 
+            xl:grid-cols-4">
             {filteredTickets.map((ticket, index) => (
               <AdminCard
                 key={index}

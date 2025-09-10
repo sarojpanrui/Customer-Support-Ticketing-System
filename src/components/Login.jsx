@@ -27,7 +27,7 @@ const Login = () => {
                 navigate("/customer");
                  toast.success("Login successful!");
             }
-             toast.success("Login successful!");
+           
         } else {
             toast.error("Invalid username or password!");
         }

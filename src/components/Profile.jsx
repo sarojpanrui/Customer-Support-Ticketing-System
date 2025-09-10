@@ -22,13 +22,13 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <div className="merriweather">
       {/* Mobile Toggle Button */}
       <button
-        className="md:hidden relative top-4 left-4 z-50 px-4 py-2 rounded-lg bg-blue-500 text-white shadow-lg hover:bg-blue-600 transition w-[80%] mb-5 flex justify-center align-middle"
+        className="md:hidden relative top-4 left-4 z-50 px-4 py-4 rounded-lg bg-blue-500 text-white shadow-lg hover:bg-blue-600 transition w-[90%] mb-5 flex justify-center align-middle"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? "Close Profile" : "Open Profile"}
+        {isOpen ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg> : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>}
       </button>
 
       {/* Sidebar */}
@@ -64,14 +64,14 @@ const Profile = () => {
 
         {/* Username */}
         {!isCollapsed && (
-          <div className="mt-4 text-xl font-bold text-gray-800 text-center">
+          <div className="mt-4 text-xl font-bold text-gray-800 text-center merriweather">
             {auth ? auth.username.toUpperCase() : "Guest"}
           </div>
         )}
 
         {/* Email */}
         {!isCollapsed && (
-          <div className="mt-1 text-sm text-gray-500 text-center break-words px-2">
+          <div className="mt-1 text-sm  text-center break-words px-2">
             {auth ? auth.email : "No Email"}
           </div>
         )}
@@ -81,7 +81,7 @@ const Profile = () => {
 
         {/* Role */}
         <div
-          className={`w-full bg-gray-100 text-center py-2 rounded-lg font-medium text-gray-700 shadow-sm ${isCollapsed ? "text-xs" : ""
+          className={`w-full bg-gray-100 text-center py-2 rounded-lg font-medium  shadow-sm ${isCollapsed ? "text-xs" : ""
             }`}
         >
           {auth ? auth.role : "Unknown User"}
@@ -95,14 +95,14 @@ const Profile = () => {
         >
           {auth?.role === "Admin" ? (
             <>
-              
+
               <span className="text-sm text-gray-700">
                 Welcome, <strong>{auth?.username || "User"}</strong>! You can view the tickets created by users and you have the ability to <strong>update</strong> and <strong>delete</strong> them.
               </span>
             </>
           ) : (
             <>
-              
+
               <span className="text-sm text-gray-700">
                 Welcome, <strong>{auth?.username || "User"}</strong>! You can create your ticket which will be resolved by the admin.
               </span>
@@ -120,7 +120,7 @@ const Profile = () => {
           {!isCollapsed ? (
             "Logout"
           ) : (
-            <FaArrowUpRightFromSquare className="text-xl" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="m16 17 5-5-5-5" /><path d="M21 12H9" /><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg>
           )}
         </button>
 

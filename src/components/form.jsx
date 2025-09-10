@@ -7,12 +7,14 @@ import { toast } from "react-toastify";
 const TaskForm = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null);
+  const[username, setUsername]=useState('');
 
   // Get logged-in user id
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     if (loggedInUser) {
       setUserId(loggedInUser.id);
+      setUsername(loggedInUser.username);
     }
   }, []);
 
@@ -42,6 +44,7 @@ const TaskForm = () => {
       const ticket = {
         ...values,
         id: userId,
+        user : username,
         ticketId: Date.now(),
         createdAt: new Date().toLocaleString(),
       };

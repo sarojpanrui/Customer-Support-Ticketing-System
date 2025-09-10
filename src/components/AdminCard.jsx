@@ -32,10 +32,10 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
   };
 
   return (
-    <div className="border rounded-2xl p-5 shadow-lg hover:shadow-2xl transition duration-300 bg-white flex flex-col gap-3 w-full "
+    <div className="border rounded-2xl p-5 shadow-lg hover:shadow-2xl transition duration-300 bg-white flex flex-col gap-3 w-full story-script-regular"
     >
-      <h3 className="text-xl font-bold text-gray-800">{ticket.title}</h3>
-      <p className="text-gray-600">{ticket.description}</p>
+      <h3 className="text-4xl font-bold text-gray-800 story-script-regular ">{ticket.title}</h3>
+      <p className="text-gray-900 ">{ticket.description}</p>
 
       <div className="flex justify-between flex-wrap gap-2 mt-2">
         <span className={`px-3 py-1 rounded-full font-semibold ${getPriorityColor(ticket.priority)}`}>
@@ -44,28 +44,35 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
         <span className={`px-3 py-1 rounded-full font-semibold ${getStatusColor(ticket.status)}`}>
           {ticket.status}
         </span>
-        <span className="text-gray-500">userId: {ticket.id}</span>
-        <span className="text-gray-500">TicketId: {ticket.ticketId}</span>
+
+        <div className="flex flex-col ">
+          <span className="">USER ID: {ticket.id}</span>
+          <span className="">USERNAME: {ticket.user}</span>
+          <span className="">TICKET ID: {ticket.ticketId}</span>
+        </div>
+
+
+
       </div>
 
-      <div className="flex gap-2 flex-wrap mt-3">
+      <div className="flex gap-10  mt-3 justify-center border p-2 rounded-2xl border-gray-300 bg-gray-300">
         <button
-          className="flex-1 p-2 bg-red-500 text-white font-semibold rounded-2xl hover:bg-red-600 transition"
+          className="cursor-pointer"
           onClick={() => onDelete(ticket.ticketId)}
         >
-          Delete
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-icon lucide-trash"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
         </button>
 
         <button
-          className="flex-1 p-2 bg-blue-500 text-white font-semibold rounded-2xl hover:bg-blue-600 transition"
+          className="cursor-pointer"
           onClick={() => setIsModalOpen(true)}
         >
-          Edit
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" /></svg>
         </button>
 
-        <button className="border p-1 rounded-xl bg-green-500 text-white font-semibold" onClick={() => navigate(`/ticket/${ticket.ticketId}`)}> view </button>
+        <button className="cursor-pointer" onClick={() => navigate(`/ticket/${ticket.ticketId}`)}> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-icon lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle cx="12" cy="12" r="3" /></svg> </button>
 
-        
+
       </div>
 
       {/* Modal */}
@@ -124,7 +131,7 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
               </button>
 
 
-              
+
             </div>
           </div>
         </div>
