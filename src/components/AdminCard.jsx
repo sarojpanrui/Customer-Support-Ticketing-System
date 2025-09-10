@@ -37,23 +37,24 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
       <h3 className="text-4xl font-bold text-gray-800 story-script-regular ">{ticket.title}</h3>
       <p className="text-gray-900 ">{ticket.description}</p>
 
-      <div className="flex justify-between flex-wrap gap-2 mt-2">
+      <div className="flex justify-between flex-wrap gap-2 mt-2 ">
         <span className={`px-3 py-1 rounded-full font-semibold ${getPriorityColor(ticket.priority)}`}>
           {ticket.priority}
         </span>
         <span className={`px-3 py-1 rounded-full font-semibold ${getStatusColor(ticket.status)}`}>
           {ticket.status}
         </span>
-
-        <div className="flex flex-col ">
-          <span className="">USER ID: {ticket.id}</span>
-          <span className="">USERNAME: {ticket.user}</span>
-          <span className="">TICKET ID: {ticket.ticketId}</span>
-        </div>
-
-
-
       </div>
+
+      <div className="flex flex-col ">
+        <span className="">USER ID: {ticket.id}</span>
+        <span className="">USERNAME: {ticket.user}</span>
+        <span className="">TICKET ID: {ticket.ticketId}</span>
+      </div>
+
+
+
+
 
       <div className="flex gap-10  mt-3 justify-center border p-2 rounded-2xl border-gray-300 bg-gray-300">
         <button

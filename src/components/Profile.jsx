@@ -25,7 +25,7 @@ const Profile = () => {
     <div className="merriweather">
       {/* Mobile Toggle Button */}
       <button
-        className="md:hidden relative top-4 left-4 z-50 px-4 py-4 rounded-lg bg-blue-500 text-white shadow-lg hover:bg-blue-600 transition w-[90%] mb-5 flex justify-center align-middle"
+        className="md:hidden relative top-4 left-4 z-50 px-4 py-4 rounded-lg bg-black text-white shadow-lg hover:bg-blue-600 transition w-[20%] mb-5 flex justify-center align-middle"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg> : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>}
@@ -37,7 +37,7 @@ const Profile = () => {
           fixed top-0 left-0 h-screen bg-white border-r border-gray-200 shadow-xl
           flex flex-col items-center py-8 px-4 transition-transform duration-300 z-40
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
-          ${isCollapsed ? "md:w-50" : "md:w-80"}
+          ${isCollapsed ? "md:w-50" : "md:w-90"}
         `}
       >
         {/* Collapse Button */}

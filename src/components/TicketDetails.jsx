@@ -176,12 +176,12 @@ const TicketDetail = () => {
           <form className="flex gap-5" onSubmit={handleSubmit}>
             <textarea
               placeholder="Add comment"
-              className="border border-gray-300 p-3 rounded-2xl w-full resize-none"
+              className="border border-gray-300 rounded-2xl w-full resize-none text-center"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             />
             <button
-              className="p-2 px-3 border rounded-2xl border-gray-300 bg-green-300"
+              className=" text-center px-9 border rounded-2xl border-gray-300 bg-green-300"
               type="submit"
             >
               Add
