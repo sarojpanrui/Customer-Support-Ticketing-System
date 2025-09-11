@@ -62,7 +62,7 @@ const TicketDetail = () => {
     setComments(updated);
     localStorage.setItem("comments", JSON.stringify(updated));
     toast.success('Comment deleted')
-    
+
   }
 
   // Start editing
@@ -120,7 +120,7 @@ const TicketDetail = () => {
 
   if (!ticket) {
     return (
-      <p className="p-4 text-gray-500 text-center">⚠️ Ticket not found.</p>
+      <p className="p-4 text-gray-500 text-center"> Ticket not found.</p>
     );
   }
 
@@ -128,15 +128,15 @@ const TicketDetail = () => {
     <div className="p-6 max-w-2xl mx-auto merriweather">
       {/* Back Button */}
       <button
-        className="mb-6 px-5 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl shadow-sm transition-all"
+        className="mb-6 px-5 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl shadow-sm transition-all flex"
         onClick={() => navigate(-1)}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-from-line-icon lucide-arrow-left-from-line"><path d="m9 6-6 6 6 6" /><path d="M3 12h14" /><path d="M21 19V5" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon lucide-arrow-left"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></svg>Back
       </button>
 
       {/* Ticket Card */}
       <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
-        <h2 className="text-3xl font-bold mb-3 text-gray-900">
+        <h2 className="lg:text-3xl font-bold mb-3 text-gray-900 text-xl">
           {ticket.title}
         </h2>
         <p className="text-gray-600 mb-6 leading-relaxed">
@@ -164,14 +164,32 @@ const TicketDetail = () => {
 
         {/* Dates */}
         <div className="mt-6 flex flex-col sm:flex-row gap-3 text-sm text-gray-600">
-          <span className="px-3 py-2 bg-gray-100 rounded-lg shadow-sm">
-            Created At: <strong>{formatDate(ticket.createdAt)}</strong>
+
+
+
+          <span className="px-3 py-2 bg-gray-100 rounded-lg shadow-sm flex justify-center align-middle gap-2">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-plus-icon lucide-clock-plus"><path d="M12 6v6l3.644 1.822"/><path d="M16 19h6"/><path d="M19 16v6"/><path d="M21.92 13.267a10 10 0 1 0-8.653 8.653"/></svg>
+
+            <span className="mt-1">Created At: <strong>{formatDate(ticket.createdAt)}</strong></span>
+
           </span>
-          <span className="px-3 py-2 bg-gray-100 rounded-lg shadow-sm">
+
+
+
+          <span className="px-3 py-2 bg-gray-100 rounded-lg shadow-sm flex gap-2">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-arrow-up-icon lucide-clock-arrow-up"><path d="M12 6v6l1.56.78"/><path d="M13.227 21.925a10 10 0 1 1 8.767-9.588"/><path d="m14 18 4-4 4 4"/><path d="M18 22v-8"/></svg>
+            
+            <span className="mt-1">
             Updated At:{" "}
             <strong>
               {ticket.updatedAt ? formatDate(ticket.updatedAt) : "Not updated"}
             </strong>
+
+            </span>
+
+
           </span>
         </div>
 

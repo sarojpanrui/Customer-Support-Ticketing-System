@@ -37,7 +37,7 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen bg-blue-200 px-4">
       {/* Card */}
       <div className="bg-white rounded-2xl shadow-2xl/40 flex flex-col md:flex-row w-full max-w-4xl overflow-hidden">
-        
+
         {/* Left Side - Image */}
         <div className="hidden md:flex md:w-1/2 items-center justify-center bg-gray-100">
           <img
@@ -71,9 +71,14 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-700 transition"
+              className="w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-700 transition flex justify-center align-middle gap-5 text-xl font-bold"
             >
               Login
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-in-icon lucide-log-in"><path d="m10 17 5-5-5-5" /><path d="M15 12H3" /><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /></svg>
+
+
+
             </button>
 
             <p className="text-center text-sm text-gray-600">

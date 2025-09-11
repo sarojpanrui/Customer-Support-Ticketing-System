@@ -1,12 +1,9 @@
-
 import Profile from "./Profile";
 import { useEffect, useState } from "react";
 import AdminCard from "./AdminCard";
 import { toast } from "react-toastify";
 
 const AdminDashboard = () => {
-
-
   const [tickets, setTickets] = useState([]);
   const [name, setName] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("All");
@@ -29,24 +26,19 @@ const AdminDashboard = () => {
     );
     setTickets(updatedTickets);
     localStorage.setItem("tickets", JSON.stringify(updatedTickets));
-    toast.success('Deleted successfully')
+    toast.success("Deleted successfully");
   };
 
- const handleUpdate = (ticketId, updatedTicket) => {
-  const now = new Date().toISOString(); // current timestamp
+  const handleUpdate = (ticketId, updatedTicket) => {
+    const updatedTickets = tickets.map((t) =>
+      t.ticketId === ticketId
+        ? { ...t, ...updatedTicket, updatedAt: new Date().toLocaleString() }
+        : t
+    );
 
-  const updatedTickets = tickets.map((t) =>
-    t.ticketId === ticketId 
-      ? { ...t, ...updatedTicket, updatedAt: new Date().toLocaleString(), } // merge new data + timestamp
-      : t
-  );
-
-  setTickets(updatedTickets);
-  localStorage.setItem("tickets", JSON.stringify(updatedTickets));
-};
-
-
-
+    setTickets(updatedTickets);
+    localStorage.setItem("tickets", JSON.stringify(updatedTickets));
+  };
 
   // Filter tickets based on priority and status
   const filteredTickets = tickets.filter((ticket) => {
@@ -58,13 +50,11 @@ const AdminDashboard = () => {
   });
 
   return (
-    <div className="flex flex-col md:flex-row h-screen ">
-      {/* Sidebar */}
-      <div className="w-full md:w-1/4">
-        <Profile />
-      </div>
+    <div className="flex h-screen">
+      {/* Sidebar (fixed overlay on mobile, fixed left on desktop) */}
+      <Profile />
 
-      {/* Main Content */}
+      {/* Main Content (always full width) */}
       <div className="flex-1 p-4 overflow-auto bg-gray-50">
         {/* Navbar */}
         <nav className="border p-4 flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0 rounded-lg bg-white shadow-sm mb-6 border-gray-300 merriweather">
@@ -93,7 +83,7 @@ const AdminDashboard = () => {
               className="border px-3 py-2 rounded-lg shadow-sm"
             >
               <option value="All">All Statuses</option>
-              <option value="Open">open</option>
+              <option value="Open">Open</option>
               <option value="In Progress">In Progress</option>
               <option value="Resolved">Resolved</option>
             </select>
@@ -102,22 +92,25 @@ const AdminDashboard = () => {
 
         {/* Tickets */}
         {filteredTickets.length === 0 ? (
-          <p className="text-gray-500 text-center mt-10">
-            No tickets match the selected filters.
+          <p className="text-gray-500 text-center mt-10 flex justify-center align-middle flex-col">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-x-icon lucide-folder-x"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /><path d="m9.5 10.5 5 5" /><path d="m14.5 10.5-5 5" /></svg> 
+           
+           
           </p>
         ) : (
-          <div  className="grid gap-8 mt-5 
-            sm:grid-cols-1 
-            md:grid-cols-2 
-            lg:grid-cols-3 
-            xl:grid-cols-4">
+          <div
+            className="grid gap-8 mt-5
+              sm:grid-cols-1
+              md:grid-cols-2
+              lg:grid-cols-3
+              xl:grid-cols-4"
+          >
             {filteredTickets.map((ticket, index) => (
               <AdminCard
                 key={index}
                 ticket={ticket}
                 onDelete={handleDelete}
                 onUpdate={handleUpdate}
-
               />
             ))}
           </div>

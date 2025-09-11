@@ -62,7 +62,7 @@ const TaskForm = () => {
   });
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-md">
+    <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-2xl/10 border border-gray-300 mt-10">
       <h2 className="text-2xl font-bold mb-4">Create Ticket</h2>
       <form onSubmit={formik.handleSubmit} className="space-y-4">
         {/* Title */}

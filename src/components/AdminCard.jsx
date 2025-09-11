@@ -32,21 +32,21 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
   };
 
   return (
-    <div className="border rounded-2xl p-5 shadow-lg hover:shadow-2xl transition duration-300 bg-white flex flex-col gap-3 w-full story-script-regular"
+    <div className="border rounded-2xl p-5 shadow-lg hover:shadow-2xl transition duration-300 bg-white flex flex-col gap-3 w-full lora h-full min-h-[300px] max-h-[400px] overflow-hidden"
     >
-      <h3 className="text-4xl font-bold text-gray-800 story-script-regular ">{ticket.title}</h3>
-      <p className="text-gray-900 ">{ticket.description}</p>
+      <h3 className="lg:text-2xl font-bold text-gray-800  truncate md:text-xl text-lg">{ticket.title}</h3>
+      <p className="text-gray-900 line-clamp-3 md:text-sm">{ticket.description}</p>
 
       <div className="flex justify-between flex-wrap gap-2 mt-2 ">
-        <span className={`px-3 py-1 rounded-full font-semibold ${getPriorityColor(ticket.priority)}`}>
+        <span className={`px-3 py-1 rounded-full font-semibold ${getPriorityColor(ticket.priority)} md:text-[15px]`}>
           {ticket.priority}
         </span>
-        <span className={`px-3 py-1 rounded-full font-semibold ${getStatusColor(ticket.status)}`}>
+        <span className={`px-3 py-1 rounded-full font-semibold ${getStatusColor(ticket.status)} md:text-[15px]`}>
           {ticket.status}
         </span>
       </div>
 
-      <div className="flex flex-col ">
+      <div className="flex flex-col md:text-[15px] text-xs">
         <span className="">USER ID: {ticket.id}</span>
         <span className="">USERNAME: {ticket.user}</span>
         <span className="">TICKET ID: {ticket.ticketId}</span>
@@ -56,7 +56,7 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
 
 
 
-      <div className="flex gap-10  mt-3 justify-center border p-2 rounded-2xl border-gray-300 bg-gray-300">
+      <div className="flex lg:gap-10 md:gap-6 gap-4 mx-auto  mt-3 justify-center border p-2 rounded-2xl border-gray-300 bg-gray-300 w-full">
         <button
           className="cursor-pointer"
           onClick={() => onDelete(ticket.ticketId)}

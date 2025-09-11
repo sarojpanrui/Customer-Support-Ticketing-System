@@ -1,142 +1,162 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaArrowRight, FaArrowLeft, FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { toast } from "react-toastify";
-
-const Profile = () => {
+ 
+const Profile = ({ children }) => {
   const [auth, setAuth] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-
+  const [isOpen, setIsOpen] = useState(false); // only for mobile toggle
+ 
   const navigate = useNavigate();
-
+ 
   useEffect(() => {
     const storedAuth = localStorage.getItem("loggedInUser");
     if (storedAuth) setAuth(JSON.parse(storedAuth));
   }, []);
-
+ 
   const handleLogout = () => {
     localStorage.removeItem("loggedInUser");
-    toast.success('Logout successfully')
+    toast.success("Logout successfully");
     navigate("/login");
   };
-
+ 
   return (
-    <div className="merriweather">
-      {/* Mobile Toggle Button */}
-      <button
-        className="md:hidden relative top-4 left-4 z-50 px-4 py-4 rounded-lg bg-black text-white shadow-lg  transition w-[20%] mb-5 flex justify-center align-middle"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {isOpen ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg> : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu"><path d="M4 5h16" /><path d="M4 12h16" /><path d="M4 19h16" /></svg>}
-      </button>
-
+    <div className="flex min-h-screen">
       {/* Sidebar */}
       <div
-        className={`
-          fixed top-0 left-0 h-screen bg-white border-r border-gray-200 shadow-xl
-          flex flex-col items-center py-8 px-4 transition-transform duration-300 z-40
-          ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
-          ${isCollapsed ? "md:w-50" : "md:w-90"}
-        `}
+        className={`fixed top-0 left-0 h-screen bg-white border-r border-gray-200 shadow-xl
+        flex flex-col items-center py-8 px-4 transition-transform duration-300 z-40
+        ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:w-72`}
       >
-        {/* Collapse Button */}
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="hidden md:block absolute top-4 right-[-12px] bg-gray-100 rounded-full p-1 shadow hover:bg-gray-200 transition"
-        >
-          {isCollapsed ? (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-to-line-icon lucide-arrow-right-to-line"><path d="M17 12H3" /><path d="m11 18 6-6-6-6" /><path d="M21 5v14" /></svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-to-line-icon lucide-arrow-left-to-line"><path d="M3 19V5" /><path d="m13 6-6 6 6 6" /><path d="M7 12h14" /></svg>
-          )}
-        </button>
-
         {/* Avatar */}
-        <div
-          className={`
-            flex items-center justify-center rounded-full bg-gradient-to-r from-blue-400 to-blue-600 text-white font-bold shadow-md transition-all
-            ${isCollapsed ? "h-12 w-12 text-xl" : "h-24 w-24 text-5xl"}
-          `}
-        >
+        <div className="flex items-center justify-center rounded-full bg-gradient-to-r from-blue-400 to-blue-600
+          text-white font-bold shadow-md h-24 w-24 text-5xl">
           {auth ? auth.username.charAt(0).toUpperCase() : "?"}
         </div>
-
+ 
         {/* Username */}
-        {!isCollapsed && (
-          <div className="mt-4 text-xl font-bold text-gray-800 text-center merriweather">
-            {auth ? auth.username.toUpperCase() : "Guest"}
-          </div>
-        )}
-
+        <div className="mt-4 text-xl font-bold text-gray-800 text-center montserrat">
+          {auth ? auth.username.toUpperCase() : "Guest"}
+        </div>
+ 
         {/* Email */}
-        {!isCollapsed && (
-          <div className="mt-1 text-sm  text-center break-words px-2">
-            {auth ? auth.email : "No Email"}
-          </div>
-        )}
-
+        <div className="mt-1 text-sm text-center break-words px-2 lora">
+          {auth ? auth.email : "No Email"}
+        </div>
+ 
         {/* Divider */}
         <div className="w-full border-t my-6"></div>
-
+ 
         {/* Role */}
-        <div
-          className={`w-full bg-gray-100 text-center py-2 rounded-lg font-medium  shadow-sm ${isCollapsed ? "text-xs" : ""
-            }`}
-        >
+        <div className="w-full bg-gray-100 text-center py-2 rounded-lg font-medium shadow-sm">
           {auth ? auth.role : "Unknown User"}
         </div>
-
+ 
         {/* Info Box */}
         <div
-          className={`mt-5 w-full rounded-xl p-4 flex items-center gap-3 
-    ${auth?.role === "admin" ? "bg-blue-50 border-l-4 border-blue-400 text-blue-700" : "bg-green-50 border-l-4 border-green-400 text-green-700"}
-  `}
+          className={`mt-5 w-full rounded-xl p-4 flex items-center gap-3
+            ${auth?.role?.toLowerCase() === "admin"
+              ? "bg-blue-50 border-l-4 border-blue-400 text-blue-700"
+              : "bg-green-50 border-l-4 border-green-400 text-green-700"
+            }`}
         >
-          {auth?.role === "Admin" ? (
-            <>
-
-              <span className="text-sm text-gray-700">
-                Welcome, <strong>{auth?.username || "User"}</strong>! You can view the tickets created by users and you have the ability to <strong>update</strong> and <strong>delete</strong> them.
-              </span>
-            </>
+          {auth?.role?.toLowerCase() === "admin" ? (
+            <span className="text-sm text-gray-700">
+              Welcome, <strong>{auth?.username || "User"}</strong>! You can view
+              the tickets created by users and you have the ability to{" "}
+              <strong>update</strong> and <strong>delete</strong> them.
+            </span>
           ) : (
-            <>
-
-              <span className="text-sm text-gray-700">
-                Welcome, <strong>{auth?.username || "User"}</strong>! You can create your ticket which will be resolved by the admin.
-              </span>
-            </>
+            <span className="text-sm text-gray-700">
+              Welcome, <strong>{auth?.username || "User"}</strong>! You can
+              create your ticket which will be resolved by the admin.
+            </span>
           )}
         </div>
-
+ 
         {/* Logout Button */}
         <button
           onClick={handleLogout}
-          className={`
-            w-full mt-auto py-3 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600 transition duration-200 shadow-md flex items-center justify-center
-          `}
+          className="w-full mt-auto py-3 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600
+          transition duration-200 shadow-md flex items-center justify-center gap-2 cursor-pointer"
         >
-          {!isCollapsed ? (
-
-            <>
-              <p className="mr-2">Logout</p>
-
-
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="m16 17 5-5-5-5" /><path d="M21 12H9" /><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg>
-
-            </>
-
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="m16 17 5-5-5-5" /><path d="M21 12H9" /><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg>
-          )}
+          <p>Logout</p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-log-out"
+          >
+            <path d="m16 17 5-5-5-5" />
+            <path d="M21 12H9" />
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          </svg>
         </button>
-
+ 
         {/* Footer */}
-        {!isCollapsed && <p className="mt-4 text-xs text-gray-400 text-center">2025 All rights reserved</p>}
+        <p className="mt-4 text-xs text-gray-400 text-center">
+          2025 All rights reserved
+        </p>
       </div>
+ 
+      {/* Overlay for Mobile */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-40 z-30 md:hidden"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+ 
+      {/* Mobile Toggle Button */}
+      <button
+        className="md:hidden fixed top-4 left-1 z-50 px-3 py-3 rounded-lg bg-black text-white shadow-lg transition"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-x"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-menu"
+          >
+            <path d="M4 5h16" />
+            <path d="M4 12h16" />
+            <path d="M4 19h16" />
+          </svg>
+        )}
+      </button>
+ 
+      {/* Main Content */}
+      <main className="flex-1 md:ml-72 p-6 bg-gray-50">{children}</main>
     </div>
   );
 };
-
+ 
 export default Profile;

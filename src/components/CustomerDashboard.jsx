@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Profile from "./Profile";
 import Card from "./Card";
-import AdminCard from './AdminCard'
+import AdminCard from "./AdminCard";
 import { toast } from "react-toastify";
 
 const CustomerDashboard = () => {
@@ -12,7 +12,6 @@ const CustomerDashboard = () => {
   const [userId, setUserId] = useState(null);
   const [authTickets, setAuthTickets] = useState([]);
   const [Tickets, setTickets] = useState([]);
-
 
   // Filters
   const [priorityFilter, setPriorityFilter] = useState("All");
@@ -56,15 +55,13 @@ const CustomerDashboard = () => {
     );
     setAuthTickets(updatedTickets);
     localStorage.setItem("tickets", JSON.stringify(updatedTickets));
-    toast.success('Deleted successfully')
+    toast.success("Deleted successfully");
   };
 
   const handleUpdate = (ticketId, updatedTicket) => {
-    const now = new Date().toISOString(); // current timestamp
-
     const updatedTickets = authTickets.map((t) =>
       t.ticketId === ticketId
-        ? { ...t, ...updatedTicket, updatedAt: new Date().toLocaleString(), } // merge new data + timestamp
+        ? { ...t, ...updatedTicket, updatedAt: new Date().toLocaleString() }
         : t
     );
 
@@ -72,20 +69,17 @@ const CustomerDashboard = () => {
     localStorage.setItem("tickets", JSON.stringify(updatedTickets));
   };
 
-
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      {/* Sidebar */}
-      <div className="w-full md:w-1/4">
-        <Profile />
-      </div>
+    <div className="flex h-screen">
+      {/* Sidebar (fixed overlay / slide) */}
+      <Profile />
 
-      {/* Main Content */}
+      {/* Main Content - full width */}
       <div className="flex-1 p-4 overflow-auto bg-gray-50">
         {/* Navbar */}
-        <nav className="border p-4 flex flex-col md:flex-row justify-between items-center gap-3 rounded-lg bg-white shadow-sm mb-6 border-gray-300 merriweather">
-          <p className="text-center font-bold text-2xl md:text-3xl merriweather">
-            WELCOME,{name}
+        <nav className="border p-4 flex flex-col md:flex-col lg:flex-row justify-between items-center gap-3 rounded-lg bg-white shadow-sm mb-6 border-gray-300 merriweather">
+          <p className="text-center font-bold text-2xl md:text-2xl merriweather">
+            WELCOME, {name}
           </p>
 
           <div className="flex flex-wrap gap-3 items-center">
@@ -108,82 +102,71 @@ const CustomerDashboard = () => {
               className="border px-3 py-2 rounded-lg shadow-sm"
             >
               <option value="All">All Statuses</option>
-              <option value="Open">open</option>
+              <option value="Open">Open</option>
               <option value="In Progress">In Progress</option>
               <option value="Resolved">Resolved</option>
             </select>
 
             {/* Add Ticket Button */}
             <button
-              className="p-3 border rounded-2xl bg-green-400 border-gray-300 text-white font-semibold"
+              className="p-2 border rounded-xl bg-green-400 border-gray-300 text-white font-semibold hover:bg-green-500 transition"
               onClick={formRender}
             >
-              Add Ticket
+              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-symlink-icon lucide-file-symlink"><path d="m10 18 3-3-3-3" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M4 11V4a2 2 0 0 1 2-2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h7" /></svg>
+
             </button>
           </div>
         </nav>
 
-        {/* auth Tickets */}
-        <h1 className="text-2xl font-semibold text-center underline merriweather">Your Tickets</h1>
+        {/* User Tickets */}
+        <h1 className="text-2xl font-semibold text-center underline open-sans">
+          Your Tickets
+        </h1>
         {filteredTickets.length === 0 ? (
-          <p className="text-gray-500 text-center mt-10">
-            No tickets match the selected filters.
+          <p className="text-gray-500 text-center mt-10 flex justify-center align-middle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-x-icon lucide-folder-x"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /><path d="m9.5 10.5 5 5" /><path d="m14.5 10.5-5 5" className=" " /></svg>
           </p>
         ) : (
           <div
-            className="grid gap-5 mt-5 
-            sm:grid-cols-1 
-            md:grid-cols-2 
-            lg:grid-cols-3 
-            xl:grid-cols-4"
+            className="grid gap-5 mt-5
+              sm:grid-cols-1
+              md:grid-cols-2
+              lg:grid-cols-3
+              xl:grid-cols-4"
           >
             {filteredTickets.map((ticket, index) => (
-             <AdminCard
+              <AdminCard
                 key={index}
                 ticket={ticket}
                 onDelete={handleDelete}
                 onUpdate={handleUpdate}
-
               />
             ))}
           </div>
         )}
 
-        {/* all tickets */}
-
-
-        <h1 className="text-2xl font-semibold text-center underline mt-5 merriweather">All Tickets</h1>
+        {/* All Tickets */}
+        <h1 className="text-2xl font-semibold text-center underline mt-5 open-sans">
+          All Tickets
+        </h1>
         {Tickets.length === 0 ? (
-          <p className="text-gray-500 text-center mt-10">
-            No tickets match the selected filters.
+          <p className="text-gray-500 text-center mt-10 flex justify-center align-middle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-x-icon lucide-folder-x"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /><path d="m9.5 10.5 5 5" /><path d="m14.5 10.5-5 5" /></svg> 
+
           </p>
         ) : (
           <div
-            className="grid gap-5 mt-5 
-            sm:grid-cols-1 
-            md:grid-cols-2 
-            lg:grid-cols-3 
-            xl:grid-cols-4"
+            className="grid gap-5 mt-5
+              sm:grid-cols-1
+              md:grid-cols-2
+              lg:grid-cols-3
+              xl:grid-cols-4"
           >
             {Tickets.map((ticket, index) => (
-             <Card
-                key={index}
-                ticket={ticket}
-                
-
-              />
+              <Card key={index} ticket={ticket} />
             ))}
           </div>
         )}
-
-
-
-
-
-
-
-
-
       </div>
     </div>
   );
