@@ -30,7 +30,9 @@ const CustomerDashboard = () => {
   useEffect(() => {
     if (userId) {
       const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
-      setTickets(tickets);
+      const allTickets = tickets.filter((ticket) => ticket.id !== userId);
+      setTickets(allTickets);
+      
       const filteredTickets = tickets.filter((ticket) => ticket.id === userId);
       setAuthTickets(filteredTickets);
     }
