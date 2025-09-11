@@ -28,7 +28,7 @@ const Card = ({ ticket }) => {
                     w-full sm:w-2/2 lg:w-full xl:w-full lora h-[100%] min-h-[200px] max-h-[400px] overflow-hidden 
                     "   >
       <h3 className=" text-base lg:text-xl font-bold text-gray-800 truncate md:text-base">{ticket.title}</h3>
-      <p className="text-gray-600 line-clamp-3 md:text-sm">{ticket.description}</p>
+      <p className="text-gray-600 line-clamp-3 md:text-sm truncate">{ticket.description}</p>
 
       <div className="flex gap-2 lg:gap-5 mt-2 flex-wrap md:mx-auto justify-between lg:justify-between w-full">
         <span className={`px-3 py-1 rounded-full font-semibold ${getPriorityColor(ticket.priority)} md:text-sm text-[15px]`}>
