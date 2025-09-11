@@ -35,7 +35,7 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
     <div className="border rounded-2xl p-5 shadow-lg hover:shadow-2xl transition duration-300 bg-white flex flex-col gap-3 w-full lora h-full min-h-[300px] max-h-[400px] overflow-hidden"
     >
       <h3 className="lg:text-2xl font-bold text-gray-800  truncate md:text-xl text-lg">{ticket.title}</h3>
-      <p className="text-gray-900 line-clamp-3 md:text-sm">{ticket.description}</p>
+      <p className="text-gray-900 line-clamp-3 md:text-sm truncate">{ticket.description}</p>
 
       <div className="flex justify-between flex-wrap gap-2 mt-2 ">
         <span className={`px-3 py-1 rounded-full font-semibold ${getPriorityColor(ticket.priority)} md:text-[15px]`}>
