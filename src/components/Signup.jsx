@@ -52,7 +52,7 @@ const Signup = () => {
     <div className="flex items-center justify-center min-h-screen bg-blue-200 px-4">
       {/* Card */}
       <div className="bg-white rounded-2xl shadow-2xl/40 flex flex-col md:flex-row w-full max-w-4xl overflow-hidden">
-        
+
         {/* Left Side - Image */}
         <div className="hidden md:flex md:w-1/2 items-center justify-center bg-gray-100">
           <img
@@ -77,11 +77,10 @@ const Signup = () => {
               value={formik.values.username}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`w-full p-3 border rounded-xl ${
-                formik.touched.username && formik.errors.username
+              className={`w-full p-3 border rounded-xl ${formik.touched.username && formik.errors.username
                   ? "border-red-500"
                   : "border-gray-300"
-              }`}
+                }`}
             />
             {formik.touched.username && formik.errors.username && (
               <p className="text-red-500 text-sm">{formik.errors.username}</p>
@@ -95,11 +94,10 @@ const Signup = () => {
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`w-full p-3 border rounded-xl ${
-                formik.touched.email && formik.errors.email
+              className={`w-full p-3 border rounded-xl ${formik.touched.email && formik.errors.email
                   ? "border-red-500"
                   : "border-gray-300"
-              }`}
+                }`}
             />
             {formik.touched.email && formik.errors.email && (
               <p className="text-red-500 text-sm">{formik.errors.email}</p>
@@ -113,11 +111,10 @@ const Signup = () => {
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`w-full p-3 border rounded-xl ${
-                formik.touched.password && formik.errors.password
+              className={`w-full p-3 border rounded-xl ${formik.touched.password && formik.errors.password
                   ? "border-red-500"
                   : "border-gray-300"
-              }`}
+                }`}
             />
             {formik.touched.password && formik.errors.password && (
               <p className="text-red-500 text-sm">{formik.errors.password}</p>
@@ -144,12 +141,24 @@ const Signup = () => {
             </button>
 
             {/* Link to login */}
-            <p className="text-center text-sm text-gray-600">
+            {/* <p className="text-center text-sm text-gray-600">
               Already have an account?{" "}
               <a href="/login" className="text-blue-600 hover:underline">
                 Login
               </a>
-            </p>
+            </p> */}
+
+            <div className="flex text-center justify-center align-middle gap-2">
+              <p>Already have an account?</p>
+              <button className=" text-blue-400 underline cursor-pointer" onClick={()=> navigate('/login')}>Login</button>
+            </div>
+
+
+
+
+
+
+
           </form>
         </div>
       </div>
