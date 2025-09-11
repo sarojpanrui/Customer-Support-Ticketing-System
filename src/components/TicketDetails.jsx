@@ -57,13 +57,19 @@ const TicketDetail = () => {
   }
 
   // Delete comment
-  function handleDelete(idx) {
-    const updated = comments.filter((_, i) => i !== idx);
-    setComments(updated);
-    localStorage.setItem("comments", JSON.stringify(updated));
-    toast.success('Comment deleted')
-
-  }
+  function handleDelete(commentToDelete) {
+   const updated = comments.filter(
+     (c) =>
+       !(
+         c.ticketId === commentToDelete.ticketId &&
+         c.createdAt === commentToDelete.createdAt &&
+         c.createdBy === commentToDelete.createdBy
+       )
+   );
+   setComments(updated);
+   localStorage.setItem("comments", JSON.stringify(updated));
+   toast.success("Comment deleted");
+ }
 
   // Start editing
   function handleEdit(idx, currentText) {
@@ -203,7 +209,7 @@ const TicketDetail = () => {
               onChange={(e) => setComment(e.target.value)}
             />
             <button
-              className="border p-3 border-gray-300 rounded-2xl bg-gray-100 shadow-xs"
+              className="border p-3 border-gray-300 rounded-2xl bg-gray-100 shadow-xs cursor-pointer"
               type="submit"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-icon lucide-send"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /><path d="m21.854 2.147-10.94 10.939" /></svg>
@@ -274,7 +280,7 @@ const TicketDetail = () => {
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" /></svg>
                         </button>
                         <button
-                          onClick={() => handleDelete(idx)}
+                          onClick={() => handleDelete(c)}
                           className="text-red-500  cursor-pointer"
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-icon lucide-trash"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>

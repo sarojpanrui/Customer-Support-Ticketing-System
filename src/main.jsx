@@ -9,6 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <App />
-    <ToastContainer/>
+    <ToastContainer position="top-center"
+      autoClose={2000} 
+    />
   </BrowserRouter>,
 )
