@@ -7,6 +7,7 @@ import LoginProtect from "./protectedRoutes/LoginProtect"
 import Signup from "./components/Signup"
 import TaskForm from "./components/form"
 import TicketDetail from "./components/TicketDetails"
+import Report from "./components/Report"
 
 
 const App = () => {
@@ -44,6 +45,8 @@ const App = () => {
       <Route path="/form" element={<TaskForm/>}/>
 
       <Route path="/ticket/:id" element={<TicketDetail />} />
+
+      <Route path="/report" element={<Report/>} />
       
 
 

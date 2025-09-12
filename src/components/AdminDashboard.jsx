@@ -2,12 +2,16 @@ import Profile from "./Profile";
 import { useEffect, useState } from "react";
 import AdminCard from "./AdminCard";
 import { toast } from "react-toastify";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
   const [tickets, setTickets] = useState([]);
   const [name, setName] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [user, setUser] = useState('');
+
+  const navigate = useNavigate();
 
   // Fetch all tickets from localStorage
   useEffect(() => {
@@ -18,6 +22,9 @@ const AdminDashboard = () => {
     if (loggedInUser) {
       setName(loggedInUser.username.toUpperCase());
     }
+
+    const user = JSON.parse(localStorage.getItem('users')) || [];
+    setUser(user);
   }, []);
 
   const handleDelete = (ticketId) => {
@@ -49,6 +56,16 @@ const AdminDashboard = () => {
     return priorityMatch && statusMatch;
   });
 
+
+  // report status
+
+  const report = () => {
+    // console.log(user);
+    navigate('/report')
+  }
+
+
+
   return (
     <div className="flex h-screen">
       {/* Sidebar (fixed overlay on mobile, fixed left on desktop) */}
@@ -57,13 +74,50 @@ const AdminDashboard = () => {
       {/* Main Content (always full width) */}
       <div className="flex-1 p-4 overflow-auto bg-gray-50">
         {/* Navbar */}
-        <nav className="border p-4 flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0 rounded-lg bg-white shadow-sm mb-6 border-gray-300 merriweather">
+        <nav className="border p-4 flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0 rounded-lg bg-white shadow-sm mb-6 border-gray-300 merriweather ">
           <p className="text-center font-bold text-2xl md:text-3xl merriweather">
             WELCOME {name}
           </p>
 
           {/* Filters */}
           <div className="flex flex-wrap gap-3">
+
+
+            {/* report */}
+            <div
+              className="relative group border p-3 rounded-lg border-gray-300 shadow-md cursor-pointer hover:shadow-lg transition"
+              onClick={report}
+            >
+              {/* Hover text (outside border, slides up) */}
+              <p
+                className="absolute top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-6 transition-all duration-300 text-lg font-medium text-gray-700"
+              >
+                stats
+              </p>
+
+              {/* Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mx-auto text-indigo-600 group-hover:text-indigo-800 transition"
+              >
+                <path d="M5 21v-6" />
+                <path d="M12 21V3" />
+                <path d="M19 21V9" />
+              </svg>
+            </div>
+
+
+
+
+
             {/* Priority Filter */}
             <select
               value={priorityFilter}
@@ -93,9 +147,9 @@ const AdminDashboard = () => {
         {/* Tickets */}
         {filteredTickets.length === 0 ? (
           <p className="text-gray-500 text-center mt-10 flex justify-center align-middle ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-x-icon lucide-folder-x"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /><path d="m9.5 10.5 5 5" /><path d="m14.5 10.5-5 5" /></svg> 
-           
-           
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-x-icon lucide-folder-x"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /><path d="m9.5 10.5 5 5" /><path d="m14.5 10.5-5 5" /></svg>
+
+
           </p>
         ) : (
           <div
