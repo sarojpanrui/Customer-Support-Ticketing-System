@@ -80,16 +80,29 @@ const CustomerDashboard = () => {
   };
 
 
-  const handleUpdate = (ticketId, updatedTicket) => {
-    const updatedTickets = authTickets.map((t) =>
-      t.ticketId === ticketId
-        ? { ...t, ...updatedTicket, updatedAt: new Date().toLocaleString() }
-        : t
-    );
+ const handleUpdate = (ticketId, updatedTicket) => {
+  // Get all tickets
+  const allTickets = JSON.parse(localStorage.getItem("tickets")) || [];
 
-    setAuthTickets(updatedTickets);
-    localStorage.setItem("tickets", JSON.stringify(updatedTickets));
-  };
+  // Update the specific ticket across all tickets
+  const updatedAllTickets = allTickets.map((t) =>
+    t.ticketId === ticketId
+      ? { ...t, ...updatedTicket, updatedAt: new Date().toLocaleString() }
+      : t
+  );
+
+  // Save back to localStorage
+  localStorage.setItem("tickets", JSON.stringify(updatedAllTickets));
+
+  // Update state for user’s tickets
+  const updatedAuthTickets = updatedAllTickets.filter((t) => t.id === userId);
+  setAuthTickets(updatedAuthTickets);
+
+  // Update state for "All Tickets" section
+  const updatedOtherTickets = updatedAllTickets.filter((t) => t.id !== userId);
+  setTickets(updatedOtherTickets);
+};
+
 
   return (
     <div className="flex h-screen">
