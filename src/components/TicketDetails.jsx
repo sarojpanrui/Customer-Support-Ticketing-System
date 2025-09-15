@@ -8,11 +8,11 @@ const TicketDetail = () => {
 
   const [ticket, setTicket] = useState(null);
   const [user, setUser] = useState(null);
-  const [comment, setComment] = useState(""); // new comment input
-  const [comments, setComments] = useState([]); // list of comments
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
 
   // edit mode
-  const [editingIndex, setEditingIndex] = useState(null);
+  const [editingCommentId, setEditingCommentId] = useState(null);
   const [editText, setEditText] = useState("");
 
   useEffect(() => {
@@ -53,39 +53,42 @@ const TicketDetail = () => {
     setComments(updatedComments);
     localStorage.setItem("comments", JSON.stringify(updatedComments));
     setComment("");
-    toast.success('comment added...')
+    toast.success("Comment added...");
   }
 
   // Delete comment
   function handleDelete(commentToDelete) {
-   const updated = comments.filter(
-     (c) =>
-       !(
-         c.ticketId === commentToDelete.ticketId &&
-         c.createdAt === commentToDelete.createdAt &&
-         c.createdBy === commentToDelete.createdBy
-       )
-   );
-   setComments(updated);
-   localStorage.setItem("comments", JSON.stringify(updated));
-   toast.success("Comment deleted");
- }
+    const updated = comments.filter(
+      (c) =>
+        !(
+          c.ticketId === commentToDelete.ticketId &&
+          c.createdAt === commentToDelete.createdAt &&
+          c.createdBy === commentToDelete.createdBy
+        )
+    );
+    setComments(updated);
+    localStorage.setItem("comments", JSON.stringify(updated));
+    toast.success("Comment deleted");
+  }
 
   // Start editing
-  function handleEdit(idx, currentText) {
-    setEditingIndex(idx);
-    setEditText(currentText);
+  function handleEdit(comment) {
+    setEditingCommentId(comment.createdAt);
+    setEditText(comment.text);
   }
 
   // Save edited comment
-  function handleSave(idx) {
-    const updated = [...comments];
-    updated[idx].text = editText;
-    updated[idx].updatedAt = new Date().toString();
+  function handleSave(commentId) {
+    const updated = comments.map((c) =>
+      c.createdAt === commentId
+        ? { ...c, text: editText, updatedAt: new Date().toString() }
+        : c
+    );
     setComments(updated);
     localStorage.setItem("comments", JSON.stringify(updated));
-    setEditingIndex(null);
+    setEditingCommentId(null);
     setEditText("");
+    toast.success("Comment updated");
   }
 
   const getPriorityColor = (priority) => {
@@ -125,19 +128,17 @@ const TicketDetail = () => {
   };
 
   if (!ticket) {
-    return (
-      <p className="p-4 text-gray-500 text-center"> Ticket not found.</p>
-    );
+    return <p className="p-4 text-gray-500 text-center"> Ticket not found.</p>;
   }
 
   return (
     <div className="p-6 max-w-2xl mx-auto merriweather">
       {/* Back Button */}
       <button
-        className="mb-6 px-5 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl shadow-sm transition-all flex cursor-pointer"
+        className="mb-6 px-5 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl shadow-sm transition-all flex cursor-pointer  flex-row"
         onClick={() => navigate(-1)}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon lucide-arrow-left"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></svg>Back
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon lucide-arrow-left"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></svg> Back
       </button>
 
       {/* Ticket Card */}
@@ -170,32 +171,15 @@ const TicketDetail = () => {
 
         {/* Dates */}
         <div className="mt-6 flex flex-col sm:flex-row gap-3 text-sm text-gray-600">
-
-
-
-          <span className="px-3 py-2 bg-gray-100 rounded-lg shadow-sm flex justify-center align-middle gap-2">
-
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-plus-icon lucide-clock-plus"><path d="M12 6v6l3.644 1.822"/><path d="M16 19h6"/><path d="M19 16v6"/><path d="M21.92 13.267a10 10 0 1 0-8.653 8.653"/></svg>
-
-            <span className="mt-1">Created At: <strong>{formatDate(ticket.createdAt)}</strong></span>
-
+          <span className="px-3 py-2 bg-gray-100 rounded-lg shadow-sm flex gap-2">
+            Created At: <strong>{formatDate(ticket.createdAt)}</strong>
           </span>
 
-
-
           <span className="px-3 py-2 bg-gray-100 rounded-lg shadow-sm flex gap-2">
-
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-arrow-up-icon lucide-clock-arrow-up"><path d="M12 6v6l1.56.78"/><path d="M13.227 21.925a10 10 0 1 1 8.767-9.588"/><path d="m14 18 4-4 4 4"/><path d="M18 22v-8"/></svg>
-            
-            <span className="mt-1">
             Updated At:{" "}
             <strong>
               {ticket.updatedAt ? formatDate(ticket.updatedAt) : "Not updated"}
             </strong>
-
-            </span>
-
-
           </span>
         </div>
 
@@ -223,23 +207,23 @@ const TicketDetail = () => {
 
           {comments
             .filter((c) => c.ticketId === Number(id))
-            .map((c, idx) => (
+            .map((c) => (
               <div
-                key={idx}
+                key={c.createdAt}
                 className="mb-3 p-3 border rounded-xl bg-gray-50 shadow-sm relative"
               >
                 {/* Role Tag */}
                 <span
                   className={`absolute -top-2 -left-2 px-2 py-0.5 text-xs font-semibold rounded-full ${c.role === "Admin"
-                    ? "bg-red-500 text-white"
-                    : "bg-green-500 text-white"
+                      ? "bg-red-500 text-white"
+                      : "bg-green-500 text-white"
                     }`}
                 >
                   {c.username}({c.role})
                 </span>
 
                 {/* Edit mode */}
-                {editingIndex === idx ? (
+                {editingCommentId === c.createdAt ? (
                   <textarea
                     className="w-full border p-2 rounded-lg"
                     value={editText}
@@ -256,16 +240,16 @@ const TicketDetail = () => {
                 {/* Actions (only author can edit/delete) */}
                 {c.createdBy === user?.id && (
                   <div className="flex gap-3 mt-2">
-                    {editingIndex === idx ? (
+                    {editingCommentId === c.createdAt ? (
                       <>
                         <button
-                          onClick={() => handleSave(idx)}
+                          onClick={() => handleSave(c.createdAt)}
                           className="text-green-600 hover:underline"
                         >
                           Save
                         </button>
                         <button
-                          onClick={() => setEditingIndex(null)}
+                          onClick={() => setEditingCommentId(null)}
                           className="text-gray-600 hover:underline"
                         >
                           Cancel
@@ -274,16 +258,16 @@ const TicketDetail = () => {
                     ) : (
                       <>
                         <button
-                          onClick={() => handleEdit(idx, c.text)}
+                          onClick={() => handleEdit(c)}
                           className="text-blue-500 hover:underline cursor-pointer"
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" /></svg>
+                          Edit
                         </button>
                         <button
                           onClick={() => handleDelete(c)}
-                          className="text-red-500  cursor-pointer"
+                          className="text-red-500 hover:underline cursor-pointer"
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-icon lucide-trash"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                          Delete
                         </button>
                       </>
                     )}
