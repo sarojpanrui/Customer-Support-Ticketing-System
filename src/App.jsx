@@ -8,6 +8,7 @@ import Signup from "./components/Signup"
 import TaskForm from "./components/form"
 import TicketDetail from "./components/TicketDetails"
 import Report from "./components/Report"
+import Drag from './components/Drag'
 
 
 const App = () => {
@@ -18,7 +19,7 @@ const App = () => {
 
       <Route path='/' element={<LoginProtect> <Signup /> </LoginProtect>}></Route>
 
-      <Route path='/login' element={<LoginProtect><Login /></LoginProtect> }></Route>
+      <Route path='/login' element={<LoginProtect><Login /></LoginProtect>}></Route>
 
 
       <Route
@@ -42,12 +43,17 @@ const App = () => {
         }
       />
 
-      <Route path="/form" element={<TaskForm/>}/>
+      <Route path="/form" element={<TaskForm />} />
 
       <Route path="/ticket/:id" element={<TicketDetail />} />
 
-      <Route path="/report" element={<Report/>} />
-      
+      <Route path="/report" element={<Report />} />
+
+      <Route path="/drag" element={<Drag />} />
+
+
+
+
 
 
 

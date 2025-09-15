@@ -32,7 +32,7 @@ const CustomerDashboard = () => {
       const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
       const allTickets = tickets.filter((ticket) => ticket.id !== userId);
       setTickets(allTickets);
-      
+
       const filteredTickets = tickets.filter((ticket) => ticket.id === userId);
       setAuthTickets(filteredTickets);
     }
@@ -85,6 +85,27 @@ const CustomerDashboard = () => {
           </p>
 
           <div className="flex flex-wrap gap-3 items-center">
+
+            {/* kanaban board */}
+
+
+            <div
+              className="relative group border px-3 py-2 rounded-lg border-gray-300 shadow-md cursor-pointer hover:shadow-lg transition flex justify-center"
+              onClick={() => { navigate('/drag') }}
+            >
+              {/* Hover text (outside border, slides up) */}
+              <p
+                className="absolute top-5 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-6 transition-all duration-300 text-lg font-medium text-gray-700"
+              >
+                Kanaban
+              </p>
+
+              {/* Icon */}
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play-icon lucide-play"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg>
+
+
+            </div>
+
             {/* Priority Filter */}
             <select
               value={priorityFilter}
@@ -109,14 +130,47 @@ const CustomerDashboard = () => {
               <option value="Resolved">Resolved</option>
             </select>
 
-            {/* Add Ticket Button */}
-            <button
-              className="p-2 border rounded-xl bg-green-400 border-gray-300 text-white font-semibold hover:bg-green-500 transition cursor-pointer"
-              onClick={formRender}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-symlink-icon lucide-file-symlink"><path d="m10 18 3-3-3-3" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M4 11V4a2 2 0 0 1 2-2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h7" /></svg>
 
+
+
+            {/* Add Ticket Button */}
+
+            <button
+              onClick={formRender}
+              className="relative group flex items-center gap-2 py-2 px-3 border rounded-xl bg-green-400 border-gray-300 text-white font-semibold hover:bg-green-500 transition cursor-pointer delay-700 duration-700"
+            >
+              {/* Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-file-symlink-icon"
+              >
+                <path d="m10 18 3-3-3-3" />
+                <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                <path d="M4 11V4a2 2 0 0 1 2-2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h7" />
+              </svg>
+
+              {/* Text appears only on hover */}
+              <p
+                className="absolute top-5 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-6 transition-all duration-300 text-lg font-medium text-gray-700"
+              >
+               AddTickets
+              </p>
             </button>
+
+
+
+
+
+
+
           </div>
         </nav>
 
@@ -153,7 +207,7 @@ const CustomerDashboard = () => {
         </h1>
         {Tickets.length === 0 ? (
           <p className="text-gray-500 text-center mt-10 flex justify-center align-middle">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-x-icon lucide-folder-x"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /><path d="m9.5 10.5 5 5" /><path d="m14.5 10.5-5 5" /></svg> 
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-x-icon lucide-folder-x"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /><path d="m9.5 10.5 5 5" /><path d="m14.5 10.5-5 5" /></svg>
 
           </p>
         ) : (
