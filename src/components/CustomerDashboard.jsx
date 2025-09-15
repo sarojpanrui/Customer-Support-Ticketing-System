@@ -4,6 +4,7 @@ import Profile from "./Profile";
 import Card from "./Card";
 import AdminCard from "./AdminCard";
 import { toast } from "react-toastify";
+import CustomerCard from "./CustomerCard";
 
 const CustomerDashboard = () => {
   const navigate = useNavigate();
@@ -52,13 +53,32 @@ const CustomerDashboard = () => {
   });
 
   const handleDelete = (ticketId) => {
-    const updatedTickets = authTickets.filter(
+    // Get all tickets from localStorage
+    const allTickets = JSON.parse(localStorage.getItem("tickets")) || [];
+
+    // Remove the ticket from all tickets
+    const updatedAllTickets = allTickets.filter(
       (ticket) => ticket.ticketId !== ticketId
     );
-    setAuthTickets(updatedTickets);
-    localStorage.setItem("tickets", JSON.stringify(updatedTickets));
+
+    // Update localStorage
+    localStorage.setItem("tickets", JSON.stringify(updatedAllTickets));
+
+    // Update user’s tickets
+    const updatedAuthTickets = updatedAllTickets.filter(
+      (ticket) => ticket.id === userId
+    );
+    setAuthTickets(updatedAuthTickets);
+
+    // Update "All Tickets" list
+    const updatedOtherTickets = updatedAllTickets.filter(
+      (ticket) => ticket.id !== userId
+    );
+    setTickets(updatedOtherTickets);
+
     toast.success("Deleted successfully");
   };
+
 
   const handleUpdate = (ticketId, updatedTicket) => {
     const updatedTickets = authTickets.map((t) =>
@@ -161,7 +181,7 @@ const CustomerDashboard = () => {
               <p
                 className="absolute top-5 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-6 transition-all duration-300 text-lg font-medium text-gray-700"
               >
-               AddTickets
+                AddTickets
               </p>
             </button>
 
@@ -191,7 +211,7 @@ const CustomerDashboard = () => {
               xl:grid-cols-4"
           >
             {filteredTickets.map((ticket, index) => (
-              <AdminCard
+              <CustomerCard
                 key={index}
                 ticket={ticket}
                 onDelete={handleDelete}

@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 const TaskForm = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null);
-  const[username, setUsername]=useState('');
+  const [username, setUsername] = useState('');
 
   // Get logged-in user id
   useEffect(() => {
@@ -18,7 +18,7 @@ const TaskForm = () => {
     }
   }, []);
 
-  
+
   const validationSchema = Yup.object({
     title: Yup.string()
       .min(3, "Title must be at least 3 characters")
@@ -40,25 +40,35 @@ const TaskForm = () => {
       status: "Open", // default value
     },
     validationSchema,
+
+
     onSubmit: (values, { resetForm }) => {
       const ticket = {
         ...values,
         id: userId,
-        user : username,
+        user: username,
         ticketId: Date.now(),
         createdAt: new Date().toLocaleString(),
       };
 
-      const existingTickets = JSON.parse(localStorage.getItem("tickets")) || [];
-      const updatedTickets = [...existingTickets, ticket];
-      localStorage.setItem("tickets", JSON.stringify(updatedTickets));
+      // Always read ALL tickets
+      const allTickets = JSON.parse(localStorage.getItem("tickets")) || [];
+
+      // Append new ticket
+      const updatedAllTickets = [...allTickets, ticket];
+
+      // Save back
+      localStorage.setItem("tickets", JSON.stringify(updatedAllTickets));
 
       console.log("Saved Ticket:", ticket);
 
       resetForm();
-      toast.success('Ticket saved successfully')
+      toast.success("Ticket saved successfully");
+
       navigate("/customer");
-    },
+    }
+
+
   });
 
   return (
@@ -74,11 +84,10 @@ const TaskForm = () => {
             value={formik.values.title}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className={`w-full border rounded-md p-2 focus:outline-none focus:ring-2 ${
-              formik.touched.title && formik.errors.title
+            className={`w-full border rounded-md p-2 focus:outline-none focus:ring-2 ${formik.touched.title && formik.errors.title
                 ? "border-red-500 focus:ring-red-400"
                 : "border-gray-300 focus:ring-blue-400"
-            }`}
+              }`}
             placeholder="Enter task title"
           />
           {formik.touched.title && formik.errors.title && (
@@ -96,11 +105,10 @@ const TaskForm = () => {
             value={formik.values.description}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className={`w-full border rounded-md p-2 focus:outline-none focus:ring-2 ${
-              formik.touched.description && formik.errors.description
+            className={`w-full border rounded-md p-2 focus:outline-none focus:ring-2 ${formik.touched.description && formik.errors.description
                 ? "border-red-500 focus:ring-red-400"
                 : "border-gray-300 focus:ring-blue-400"
-            }`}
+              }`}
             placeholder="Enter task description"
             rows={4}
           />
@@ -137,11 +145,10 @@ const TaskForm = () => {
             value={formik.values.status}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className={`w-full border rounded-md p-2 focus:outline-none focus:ring-2 ${
-              formik.touched.status && formik.errors.status
+            className={`w-full border rounded-md p-2 focus:outline-none focus:ring-2 ${formik.touched.status && formik.errors.status
                 ? "border-red-500 focus:ring-red-400"
                 : "border-gray-300 focus:ring-blue-400"
-            }`}
+              }`}
           >
             <option value="Open">Open</option>
             <option value="In Progress">In Progress</option>
