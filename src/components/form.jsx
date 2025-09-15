@@ -155,7 +155,7 @@ const TaskForm = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200"
+          className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200 cursor-pointer"
         >
           Create Ticket
         </button>

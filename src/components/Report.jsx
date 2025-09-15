@@ -142,6 +142,8 @@ const Report = () => {
                 </div>
             </div>
 
+            <h1 className=" text-4xl md:text-5xl font-bold text-center text-gray-800 mb-10">Registered Users</h1>
+
             {/* User Table */}
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="users table">
