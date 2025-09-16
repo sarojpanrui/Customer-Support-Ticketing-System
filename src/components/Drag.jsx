@@ -126,11 +126,11 @@ export default function KanbanDashboard() {
                                         <p className="text-sm text-gray-600 truncate">
                                             {ticket.description}
                                         </p>
-                                        <p className="text-sm text-black truncate flex gap-2 font-bold">
+                                        <p className="text-sm text-black truncate flex  font-bold">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                width="20"
-                                                height="20"
+                                                width="24"
+                                                height="24"
                                                 fill="none"
                                                 stroke="currentColor"
                                                 strokeWidth="2"
