@@ -1,24 +1,58 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
- 
+import Swal from 'sweetalert2';
+
+
 const Profile = ({ children }) => {
   const [auth, setAuth] = useState(null);
   const [isOpen, setIsOpen] = useState(false); // only for mobile toggle
- 
+
   const navigate = useNavigate();
- 
+
   useEffect(() => {
     const storedAuth = localStorage.getItem("loggedInUser");
     if (storedAuth) setAuth(JSON.parse(storedAuth));
   }, []);
- 
+
+
+
+
+
   const handleLogout = () => {
-    localStorage.removeItem("loggedInUser");
-    toast.success("Logout successfully");
-    navigate("/login");
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You are Logged out",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Logout"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        localStorage.removeItem("loggedInUser");
+        // toast.success("Logout successfully");
+
+
+        Swal.fire({
+          title: "Logout",
+          text: "Logout Successfully",
+          icon: "success"
+        });
+        navigate("/login");
+        
+      }
+    });
+
   };
- 
+
+
+
+
+
+
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
@@ -32,25 +66,25 @@ const Profile = ({ children }) => {
           text-white font-bold shadow-md h-24 w-24 text-5xl">
           {auth ? auth.username.charAt(0).toUpperCase() : "?"}
         </div>
- 
+
         {/* Username */}
         <div className="mt-4 text-xl font-bold text-gray-800 text-center montserrat">
           {auth ? auth.username.toUpperCase() : "Guest"}
         </div>
- 
+
         {/* Email */}
         <div className="mt-1 text-sm text-center break-words px-2 lora">
           {auth ? auth.email : "No Email"}
         </div>
- 
+
         {/* Divider */}
         <div className="w-full border-t my-6"></div>
- 
+
         {/* Role */}
         <div className="w-full bg-gray-100 text-center py-2 rounded-lg font-medium shadow-sm">
           {auth ? auth.role : "Unknown User"}
         </div>
- 
+
         {/* Info Box */}
         <div
           className={`mt-5 w-full rounded-xl p-4 flex items-center gap-3
@@ -72,7 +106,7 @@ const Profile = ({ children }) => {
             </span>
           )}
         </div>
- 
+
         {/* Logout Button */}
         <button
           onClick={handleLogout}
@@ -97,13 +131,13 @@ const Profile = ({ children }) => {
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
           </svg>
         </button>
- 
+
         {/* Footer */}
         <p className="mt-4 text-xs text-gray-400 text-center">
           2025 All rights reserved
         </p>
       </div>
- 
+
       {/* Overlay for Mobile */}
       {isOpen && (
         <div
@@ -111,7 +145,7 @@ const Profile = ({ children }) => {
           onClick={() => setIsOpen(false)}
         ></div>
       )}
- 
+
       {/* Mobile Toggle Button */}
       <button
         className="md:hidden fixed top-4 left-1 z-50 px-3 py-3 rounded-lg bg-black text-white shadow-lg transition"
@@ -152,11 +186,11 @@ const Profile = ({ children }) => {
           </svg>
         )}
       </button>
- 
+
       {/* Main Content */}
       <main className="flex-1 md:ml-72 p-6 bg-gray-50">{children}</main>
     </div>
   );
 };
- 
+
 export default Profile;

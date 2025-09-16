@@ -78,8 +78,8 @@ const Signup = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={`w-full p-3 border rounded-xl ${formik.touched.username && formik.errors.username
-                  ? "border-red-500"
-                  : "border-gray-300"
+                ? "border-red-500"
+                : "border-gray-300"
                 }`}
             />
             {formik.touched.username && formik.errors.username && (
@@ -95,8 +95,8 @@ const Signup = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={`w-full p-3 border rounded-xl ${formik.touched.email && formik.errors.email
-                  ? "border-red-500"
-                  : "border-gray-300"
+                ? "border-red-500"
+                : "border-gray-300"
                 }`}
             />
             {formik.touched.email && formik.errors.email && (
@@ -112,8 +112,8 @@ const Signup = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={`w-full p-3 border rounded-xl ${formik.touched.password && formik.errors.password
-                  ? "border-red-500"
-                  : "border-gray-300"
+                ? "border-red-500"
+                : "border-gray-300"
                 }`}
             />
             {formik.touched.password && formik.errors.password && (
@@ -135,9 +135,13 @@ const Signup = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-700 transition cursor-pointer"
+              className="w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-700 transition cursor-pointer text-xl font-bold flex justify-center gap-5"
             >
               Sign Up
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-pen-icon lucide-file-pen"><path d="M12.5 22H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v9.5" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M13.378 15.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" /></svg>
+
+
             </button>
 
             {/* Link to login */}
@@ -150,7 +154,7 @@ const Signup = () => {
 
             <div className="flex text-center justify-center align-middle gap-2">
               <p>Already have an account?</p>
-              <button className=" text-blue-400 underline cursor-pointer" onClick={()=> navigate('/login')}>Login</button>
+              <button className=" text-blue-400 underline cursor-pointer" onClick={() => navigate('/login')}>Login</button>
             </div>
 
 

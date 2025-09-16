@@ -5,6 +5,8 @@ import Card from "./Card";
 import AdminCard from "./AdminCard";
 import { toast } from "react-toastify";
 import CustomerCard from "./CustomerCard";
+import Swal from 'sweetalert2';
+
 
 const CustomerDashboard = () => {
   const navigate = useNavigate();
@@ -53,55 +55,82 @@ const CustomerDashboard = () => {
   });
 
   const handleDelete = (ticketId) => {
-    // Get all tickets from localStorage
-    const allTickets = JSON.parse(localStorage.getItem("tickets")) || [];
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
 
-    // Remove the ticket from all tickets
-    const updatedAllTickets = allTickets.filter(
-      (ticket) => ticket.ticketId !== ticketId
-    );
 
-    // Update localStorage
-    localStorage.setItem("tickets", JSON.stringify(updatedAllTickets));
+        const allTickets = JSON.parse(localStorage.getItem("tickets")) || [];
 
-    // Update user’s tickets
-    const updatedAuthTickets = updatedAllTickets.filter(
-      (ticket) => ticket.id === userId
-    );
-    setAuthTickets(updatedAuthTickets);
+        const updatedAllTickets = allTickets.filter(
+          (ticket) => ticket.ticketId !== ticketId
+        );
 
-    // Update "All Tickets" list
-    const updatedOtherTickets = updatedAllTickets.filter(
-      (ticket) => ticket.id !== userId
-    );
-    setTickets(updatedOtherTickets);
+        localStorage.setItem("tickets", JSON.stringify(updatedAllTickets));
 
-    toast.success("Deleted successfully");
+        const updatedAuthTickets = updatedAllTickets.filter(
+          (ticket) => ticket.id === userId
+        );
+        setAuthTickets(updatedAuthTickets);
+
+        const updatedOtherTickets = updatedAllTickets.filter(
+          (ticket) => ticket.id !== userId
+        );
+        setTickets(updatedOtherTickets);
+
+        Swal.fire("Deleted!", "Your ticket has been deleted.", "success");
+        // toast.success("Deleted successfully");
+      }
+    });
   };
 
 
- const handleUpdate = (ticketId, updatedTicket) => {
-  // Get all tickets
-  const allTickets = JSON.parse(localStorage.getItem("tickets")) || [];
 
-  // Update the specific ticket across all tickets
-  const updatedAllTickets = allTickets.map((t) =>
-    t.ticketId === ticketId
-      ? { ...t, ...updatedTicket, updatedAt: new Date().toLocaleString() }
-      : t
-  );
 
-  // Save back to localStorage
-  localStorage.setItem("tickets", JSON.stringify(updatedAllTickets));
 
-  // Update state for user’s tickets
-  const updatedAuthTickets = updatedAllTickets.filter((t) => t.id === userId);
-  setAuthTickets(updatedAuthTickets);
+  const handleUpdate = (ticketId, updatedTicket) => {
+    // Get all tickets
+    const allTickets = JSON.parse(localStorage.getItem("tickets")) || [];
 
-  // Update state for "All Tickets" section
-  const updatedOtherTickets = updatedAllTickets.filter((t) => t.id !== userId);
-  setTickets(updatedOtherTickets);
-};
+    // Update the specific ticket across all tickets
+    const updatedAllTickets = allTickets.map((t) =>
+      t.ticketId === ticketId
+        ? { ...t, ...updatedTicket, updatedAt: new Date().toLocaleString() }
+        : t
+    );
+
+    // Save back to localStorage
+    localStorage.setItem("tickets", JSON.stringify(updatedAllTickets));
+
+    // Update state for user’s tickets
+    const updatedAuthTickets = updatedAllTickets.filter((t) => t.id === userId);
+    setAuthTickets(updatedAuthTickets);
+
+    // Update state for "All Tickets" section
+    const updatedOtherTickets = updatedAllTickets.filter((t) => t.id !== userId);
+    setTickets(updatedOtherTickets);
+
+    Swal.fire({
+      position: "top-middle",
+      icon: "success",
+      title: "Your work has been saved",
+      showConfirmButton: false,
+      timer: 1500
+    });
+
+
+  };
+
+
+
+
 
 
   return (

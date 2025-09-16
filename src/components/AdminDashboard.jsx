@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import AdminCard from "./AdminCard";
 import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
+
 
 const AdminDashboard = () => {
   const [tickets, setTickets] = useState([]);
@@ -27,14 +29,44 @@ const AdminDashboard = () => {
     setUser(user);
   }, []);
 
+
+
+
   const handleDelete = (ticketId) => {
-    const updatedTickets = tickets.filter(
-      (ticket) => ticket.ticketId !== ticketId
-    );
-    setTickets(updatedTickets);
-    localStorage.setItem("tickets", JSON.stringify(updatedTickets));
-    toast.success("Deleted successfully");
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updatedTickets = tickets.filter(
+          (ticket) => ticket.ticketId !== ticketId
+        );
+        setTickets(updatedTickets);
+        localStorage.setItem("tickets", JSON.stringify(updatedTickets));
+        // toast.success("Deleted successfully");
+
+
+
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+      }
+    });
+
   };
+
+
+
+
+
 
   const handleUpdate = (ticketId, updatedTicket) => {
     const updatedTickets = tickets.map((t) =>
@@ -45,7 +77,21 @@ const AdminDashboard = () => {
 
     setTickets(updatedTickets);
     localStorage.setItem("tickets", JSON.stringify(updatedTickets));
+
+    Swal.fire({
+      position: "top-middle",
+      icon: "success",
+      title: "Your work has been saved",
+      showConfirmButton: false,
+      timer: 1500
+    });
+
+
   };
+
+
+
+
 
   // Filter tickets based on priority and status
   const filteredTickets = tickets.filter((ticket) => {
@@ -55,6 +101,9 @@ const AdminDashboard = () => {
       statusFilter === "All" || ticket.status === statusFilter;
     return priorityMatch && statusMatch;
   });
+
+
+
 
 
   // report status

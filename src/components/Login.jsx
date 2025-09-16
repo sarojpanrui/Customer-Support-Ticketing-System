@@ -81,10 +81,12 @@ const Login = () => {
 
             </button>
 
-            <p className="text-center text-sm text-gray-600">
+            <p className="text-center ">
               Don’t have an account?{" "}
               <a href="/" className="text-blue-600 hover:underline">
                 Sign Up
+
+                
               </a>
             </p>
           </form>

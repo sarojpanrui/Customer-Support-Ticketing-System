@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Swal from 'sweetalert2';
+
 
 const TicketDetail = () => {
   const { id } = useParams();
@@ -10,10 +12,6 @@ const TicketDetail = () => {
   const [user, setUser] = useState(null);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
-
-  // edit mode
-  const [editingCommentId, setEditingCommentId] = useState(null);
-  const [editText, setEditText] = useState("");
 
   useEffect(() => {
     const storedTickets = localStorage.getItem("tickets");
@@ -58,37 +56,39 @@ const TicketDetail = () => {
 
   // Delete comment
   function handleDelete(commentToDelete) {
-    const updated = comments.filter(
-      (c) =>
-        !(
-          c.ticketId === commentToDelete.ticketId &&
-          c.createdAt === commentToDelete.createdAt &&
-          c.createdBy === commentToDelete.createdBy
-        )
-    );
-    setComments(updated);
-    localStorage.setItem("comments", JSON.stringify(updated));
-    toast.success("Comment deleted");
-  }
 
-  // Start editing
-  function handleEdit(comment) {
-    setEditingCommentId(comment.createdAt);
-    setEditText(comment.text);
-  }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updated = comments.filter(
+          (c) =>
+            !(
+              c.ticketId === commentToDelete.ticketId &&
+              c.createdAt === commentToDelete.createdAt &&
+              c.createdBy === commentToDelete.createdBy
+            )
+        );
+        setComments(updated);
+        localStorage.setItem("comments", JSON.stringify(updated));
+        // toast.success("Comment deleted");
 
-  // Save edited comment
-  function handleSave(commentId) {
-    const updated = comments.map((c) =>
-      c.createdAt === commentId
-        ? { ...c, text: editText, updatedAt: new Date().toString() }
-        : c
-    );
-    setComments(updated);
-    localStorage.setItem("comments", JSON.stringify(updated));
-    setEditingCommentId(null);
-    setEditText("");
-    toast.success("Comment updated");
+
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your Comment has been deleted.",
+          icon: "success"
+        });
+      }
+    });
+
+
   }
 
   const getPriorityColor = (priority) => {
@@ -135,10 +135,24 @@ const TicketDetail = () => {
     <div className="p-6 max-w-2xl mx-auto merriweather">
       {/* Back Button */}
       <button
-        className="mb-6 px-5 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl shadow-sm transition-all flex cursor-pointer  flex-row"
+        className="mb-6 px-5 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl shadow-sm transition-all flex cursor-pointer flex-row"
         onClick={() => navigate(-1)}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon lucide-arrow-left"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></svg> Back
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="m12 19-7-7 7-7" />
+          <path d="M19 12H5" />
+        </svg>{" "}
+        Back
       </button>
 
       {/* Ticket Card */}
@@ -196,7 +210,20 @@ const TicketDetail = () => {
               className="border p-3 border-gray-300 rounded-2xl bg-gray-100 shadow-xs cursor-pointer"
               type="submit"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-icon lucide-send"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /><path d="m21.854 2.147-10.94 10.939" /></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+                <path d="m21.854 2.147-10.94 10.939" />
+              </svg>
             </button>
           </form>
         </div>
@@ -215,62 +242,28 @@ const TicketDetail = () => {
                 {/* Role Tag */}
                 <span
                   className={`absolute -top-2 -left-2 px-2 py-0.5 text-xs font-semibold rounded-full ${c.role === "Admin"
-                      ? "bg-red-500 text-white"
-                      : "bg-green-500 text-white"
+                    ? "bg-red-500 text-white"
+                    : "bg-green-500 text-white"
                     }`}
                 >
-                  {c.username}({c.role})
+                  {c.username} ({c.role})
                 </span>
 
-                {/* Edit mode */}
-                {editingCommentId === c.createdAt ? (
-                  <textarea
-                    className="w-full border p-2 rounded-lg"
-                    value={editText}
-                    onChange={(e) => setEditText(e.target.value)}
-                  />
-                ) : (
-                  <p className="text-gray-800">{c.text}</p>
-                )}
+                <p className="text-gray-800">{c.text}</p>
 
                 <div className="text-xs text-gray-500 mt-1">
                   By <strong>{c.username}</strong> on {formatDate(c.createdAt)}
                 </div>
 
-                {/* Actions (only author can edit/delete) */}
+                {/* Actions (only author can delete) */}
                 {c.createdBy === user?.id && (
                   <div className="flex gap-3 mt-2">
-                    {editingCommentId === c.createdAt ? (
-                      <>
-                        <button
-                          onClick={() => handleSave(c.createdAt)}
-                          className="text-green-600 hover:underline"
-                        >
-                          Save
-                        </button>
-                        <button
-                          onClick={() => setEditingCommentId(null)}
-                          className="text-gray-600 hover:underline"
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => handleEdit(c)}
-                          className="text-blue-500 hover:underline cursor-pointer"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(c)}
-                          className="text-red-500 hover:underline cursor-pointer"
-                        >
-                          Delete
-                        </button>
-                      </>
-                    )}
+                    <button
+                      onClick={() => handleDelete(c)}
+                      className="text-red-500 hover:underline cursor-pointer"
+                    >
+                      Delete
+                    </button>
                   </div>
                 )}
               </div>
