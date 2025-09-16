@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 
 const Profile = ({ children }) => {
   const [auth, setAuth] = useState(null);
-  const [isOpen, setIsOpen] = useState(false); // only for mobile toggle
+  const [isOpen, setIsOpen] = useState(false); 
 
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ const Profile = ({ children }) => {
           icon: "success"
         });
         navigate("/login");
-        
+
       }
     });
 

@@ -9,6 +9,8 @@ import TaskForm from "./components/form"
 import TicketDetail from "./components/TicketDetails"
 import Report from "./components/Report"
 import Drag from './components/Drag'
+// import Loader from "./components/Loader"
+
 
 
 const App = () => {
@@ -64,4 +66,6 @@ const App = () => {
   )
 }
 
-export default App
+export default App;
+
+
