@@ -45,13 +45,20 @@ const App = () => {
         }
       />
 
-      <Route path="/form" element={<TaskForm />} />
+      <Route path="/form" element={
+        <ProtectedRoute role="Customer"><TaskForm /></ProtectedRoute>
+        
+        } />
 
       <Route path="/ticket/:id" element={<TicketDetail />} />
 
-      <Route path="/report" element={<Report />} />
+      <Route path="/report" element={
+        <ProtectedRoute role="admin"><Report /></ProtectedRoute>
+        } />
 
-      <Route path="/drag" element={<Drag />} />
+      <Route path="/drag" element={
+        <ProtectedRoute role="admin"><Drag /></ProtectedRoute>
+        } />
 
 
 
@@ -67,5 +74,8 @@ const App = () => {
 }
 
 export default App;
+
+
+
 
 

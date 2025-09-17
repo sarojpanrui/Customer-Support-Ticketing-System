@@ -18,6 +18,8 @@ const Login = () => {
       (u) => u.username === username && u.password === password
     );
 
+    
+
     if (foundUser) {
       localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
 

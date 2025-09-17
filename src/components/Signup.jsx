@@ -31,6 +31,7 @@ const Signup = () => {
     },
     validationSchema,
     onSubmit: (values) => {
+     
       const users = JSON.parse(localStorage.getItem("users")) || [];
 
       const existingUser = users.find((u) => u.email === values.email);
@@ -47,6 +48,8 @@ const Signup = () => {
       navigate("/login");
     },
   });
+
+ 
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-blue-200 px-4">
@@ -152,7 +155,7 @@ const Signup = () => {
               </a>
             </p> */}
 
-            <div className="flex text-center justify-center align-middle gap-2">
+            <div className="flex text-center justify-center align-middle lg:gap-2">
               <p>Already have an account?</p>
               <button className=" text-blue-400 underline cursor-pointer" onClick={() => navigate('/login')}>Login</button>
             </div>

@@ -13,7 +13,7 @@ const AdminDashboard = () => {
   const [statusFilter, setStatusFilter] = useState("All");
   const [user, setUser] = useState('');
   const [search, setSearch] = useState('');
-  
+
 
   const navigate = useNavigate();
 
@@ -70,6 +70,9 @@ const AdminDashboard = () => {
 
 
 
+
+
+
   const handleUpdate = (ticketId, updatedTicket) => {
     const updatedTickets = tickets.map((t) =>
       t.ticketId === ticketId
@@ -102,7 +105,7 @@ const AdminDashboard = () => {
     const statusMatch =
       statusFilter === "All" || ticket.status === statusFilter;
 
-    const matchSearch = ticket.title.toLowerCase().includes(search.toLowerCase()) ;
+    const matchSearch = ticket.title.toLowerCase().includes(search.toLowerCase());
 
 
     return priorityMatch && statusMatch && matchSearch;
@@ -118,6 +121,8 @@ const AdminDashboard = () => {
     // console.log(user);
     navigate('/report')
   }
+
+  
 
 
 
@@ -199,6 +204,9 @@ const AdminDashboard = () => {
               <option value="Low">Low</option>
             </select>
 
+
+
+
             {/* Status Filter */}
             <select
               value={statusFilter}
@@ -240,7 +248,8 @@ const AdminDashboard = () => {
                 ticket={ticket}
                 onDelete={handleDelete}
                 onUpdate={handleUpdate}
-                
+
+
               />
             ))}
           </div>

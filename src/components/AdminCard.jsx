@@ -6,7 +6,6 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedTicket, setEditedTicket] = useState({ ...ticket });
-  const[isDeleting, setIsDeleting] = useState(false);
 
   const getPriorityColor = (priority) => {
     switch (priority) {
@@ -32,15 +31,15 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
     setIsModalOpen(false);
   };
 
-  const handleDeleteClick = () => {
-    setIsDeleting(true); // trigger animation
-    setTimeout(() => {
-      onDelete(ticket.ticketId); // remove after animation finishes
-    }, 500); // matches CSS animation duration
-  };
+ 
+
+ 
+  
+
+
 
   return (
-    <div className={`border rounded-2xl p-5 shadow-lg hover:shadow-2xl transition duration-300 bg-white flex flex-col gap-3 w-full lora h-full min-h-[300px] max-h-[400px] overflow-hidden ${isDeleting ? "delete" : ""}`}
+    <div className={`border rounded-2xl p-5 shadow-lg hover:shadow-2xl transition duration-300 bg-white flex flex-col gap-3 w-full lora h-full min-h-[300px] max-h-[400px] overflow-hidden `  }
     >
       <h3 className="lg:text-2xl font-bold text-gray-800  truncate md:text-xl text-lg">{ticket.title}</h3>
       <p className="text-gray-900 line-clamp-3 md:text-sm truncate">{ticket.description}</p>
@@ -68,6 +67,7 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
         <button
           className="cursor-pointer"
           onClick={() => onDelete(ticket.ticketId)}
+
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-icon lucide-trash"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
         </button>

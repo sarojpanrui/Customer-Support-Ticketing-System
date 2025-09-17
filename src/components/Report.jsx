@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import UserCard from "./UserCard";
+
 import { useNavigate } from "react-router-dom";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { LineChart } from "@mui/x-charts/LineChart";
@@ -28,7 +28,7 @@ const Report = () => {
         let lcnt = 0,
             mcnt = 0,
             hcnt = 0;
-        tickets.forEach((t) => {
+        tickets.map((t) => {
             const priority = t.priority?.toLowerCase().trim();
             if (priority === "low") lcnt++;
             if (priority === "medium") mcnt++;
@@ -41,7 +41,7 @@ const Report = () => {
         let ocnt = 0,
             processcnt = 0,
             rescnt = 0;
-        tickets.forEach((t) => {
+        tickets.map((t) => {
             const status = t.status?.toLowerCase().trim().replace(/\s+/g, "");
             if (status === "open") ocnt++;
             if (status === "inprogress") processcnt++;
@@ -49,6 +49,12 @@ const Report = () => {
         });
         return { ocnt, processcnt, rescnt };
     }
+
+
+    function ticketAddCnt(userId) {
+        return tickets.filter((t) => t.id === userId).length;
+    }
+
 
     const { lcnt, mcnt, hcnt } = countPriorities(tickets);
     const { ocnt, processcnt, rescnt } = statusCounter(tickets);
@@ -59,6 +65,9 @@ const Report = () => {
 
     return (
         <div className="px-6 py-10 max-w-7xl mx-auto lora">
+
+
+
             <button
                 className="border p-2 border-gray-300 rounded flex gap-2 bg-gray-200 mb-4 cursor-pointer"
                 onClick={back}
@@ -67,12 +76,17 @@ const Report = () => {
                 Back
             </button>
 
+
+
+
             <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-10">
                 User & Ticket Report
             </h1>
 
             {/* Ticket summary section */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+
+
                 {/* Priority Pie */}
                 <div className="bg-white shadow-md rounded-2xl p-6 text-center hover:shadow-lg transition">
                     <h2 className="text-lg font-semibold text-gray-700 mb-4">
@@ -95,6 +109,7 @@ const Report = () => {
                         height={250}
                     />
                 </div>
+
 
                 {/* Status Pie */}
                 <div className="bg-white shadow-md rounded-2xl p-6 text-center hover:shadow-lg transition">
@@ -153,6 +168,7 @@ const Report = () => {
                             <TableCell className=" ">Username</TableCell>
                             <TableCell>Email</TableCell>
                             <TableCell>Role</TableCell>
+                            <TableCell>No of Ticket Added</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -163,6 +179,7 @@ const Report = () => {
                                     <TableCell>{user.username}</TableCell>
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{user.role}</TableCell>
+                                    <TableCell className=" justify-center align-middle flex">{ticketAddCnt(user.id)}</TableCell>
                                 </TableRow>
                             ))
                         ) : (
@@ -179,7 +196,7 @@ const Report = () => {
 
 
 
-            
+
         </div>
     );
 };
