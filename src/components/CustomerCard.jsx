@@ -25,6 +25,17 @@ const CustomerCard = ({ ticket, onDelete, onUpdate }) => {
     }
   };
 
+   const getborderColor = (priority) => {
+    switch (priority) {
+      case "High": return "border-3 border-red-300";
+      case "Medium": return "border-3 border-yellow-500";
+      case "Low": return "border-3 border-green-500";
+      default: return "border border-red-300";
+    }
+  };
+
+    
+
   // Save edited ticket
   const handleSave = () => {
     onUpdate(ticket.ticketId, editedTicket);
@@ -32,8 +43,15 @@ const CustomerCard = ({ ticket, onDelete, onUpdate }) => {
   };
 
   return (
-    <div className="border rounded-2xl p-5 shadow-lg hover:shadow-2xl transition duration-300 bg-white flex flex-col gap-3 w-full lora h-full min-h-[300px] max-h-[400px] overflow-hidden"
+    <div className={`border rounded-2xl p-5 shadow-lg hover:shadow-2xl transition duration-300 bg-white flex flex-col gap-3 w-full lora h-full min-h-[300px] max-h-[400px] overflow-hidden relative ${getborderColor(ticket.priority)}`}
     >
+
+      <span className={`absolute -top-0 -left-2 px-2 py-0.5 text-xs font-semibold rounded-full ${getPriorityColor(ticket.priority)}`}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pin-icon lucide-pin"><path d="M12 17v5" /><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z" /></svg>
+
+      </span>
+
+
       <h3 className="lg:text-2xl font-bold text-gray-800  truncate md:text-xl text-lg">{ticket.title}</h3>
       <p className="text-gray-900 line-clamp-3 md:text-sm truncate">{ticket.description}</p>
 
@@ -146,7 +164,7 @@ const CustomerCard = ({ ticket, onDelete, onUpdate }) => {
             </div>
 
 
-            
+
           </div>
         </div>
       )}
