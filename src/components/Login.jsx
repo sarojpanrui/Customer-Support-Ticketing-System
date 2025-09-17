@@ -21,7 +21,7 @@ const Login = () => {
     if (foundUser) {
       localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
 
-      toast.success("Login successful!");
+      toast.success(`welcome ${username}`);
 
       if (foundUser.role.toLowerCase() === "admin") {
         navigate("/admin");

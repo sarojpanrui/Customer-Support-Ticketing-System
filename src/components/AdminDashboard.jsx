@@ -12,6 +12,8 @@ const AdminDashboard = () => {
   const [priorityFilter, setPriorityFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
   const [user, setUser] = useState('');
+  const [search, setSearch] = useState('');
+  
 
   const navigate = useNavigate();
 
@@ -99,7 +101,11 @@ const AdminDashboard = () => {
       priorityFilter === "All" || ticket.priority === priorityFilter;
     const statusMatch =
       statusFilter === "All" || ticket.status === statusFilter;
-    return priorityMatch && statusMatch;
+
+    const matchSearch = ticket.title.toLowerCase().includes(search.toLowerCase()) ;
+
+
+    return priorityMatch && statusMatch && matchSearch;
   });
 
 
@@ -122,60 +128,57 @@ const AdminDashboard = () => {
 
       {/* Main Content (always full width) */}
       <div className="flex-1 p-4 overflow-auto bg-gray-50">
+
+
+
         {/* Navbar */}
-        <nav className="border p-4 flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0 rounded-lg bg-white shadow-sm mb-6 border-gray-300 merriweather ">
-          <p className="text-center font-bold text-2xl md:text-3xl merriweather">
-            WELCOME {name}
-          </p>
+        <nav className="border p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 rounded-lg bg-white shadow-sm mb-6 border-gray-300 merriweather">
 
-          {/* Filters */}
-          <div className="flex flex-wrap gap-3">
+          {/* Search Bar */}
+          <div className="w-full md:w-1/2">
+            <input
+              className="w-full border p-2 rounded-lg border-gray-300 shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="Enter title for search..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
 
+          {/* Filters + Actions */}
+          <div className="flex flex-wrap justify-center md:justify-end gap-3 w-full md:w-1/2">
 
-            {/* kanaban board */}
-
-
+            {/* Kanban board */}
             <div
               className="relative group border p-3 rounded-lg border-gray-300 shadow-md cursor-pointer hover:shadow-lg transition flex justify-center"
-              onClick={() => { navigate('/drag') }}
+              onClick={() => navigate('/drag')}
             >
-              {/* Hover text (outside border, slides up) */}
-              <p
-                className="absolute top-5 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-6 transition-all duration-300 text-lg font-medium text-gray-700"
-              >
-                Kanaban
+              <p className="absolute top-5 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-6 transition-all duration-300 text-sm font-medium text-gray-700">
+                Kanban
               </p>
-
-              {/* Icon */}
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play-icon lucide-play"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg>
-
-
+              <svg xmlns="http://www.w3.org/2000/svg"
+                width="20" height="20"
+                viewBox="0 0 24 24"
+                fill="none" stroke="currentColor"
+                strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                className="text-indigo-600 group-hover:text-indigo-800 transition"
+              >
+                <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
+              </svg>
             </div>
 
-
-            {/* report */}
+            {/* Report */}
             <div
               className="relative group border p-3 rounded-lg border-gray-300 shadow-md cursor-pointer hover:shadow-lg transition"
               onClick={report}
             >
-              {/* Hover text (outside border, slides up) */}
-              <p
-                className="absolute top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-6 transition-all duration-300 text-lg font-medium text-gray-700"
-              >
-                stats
+              <p className="absolute top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-6 transition-all duration-300 text-sm font-medium text-gray-700">
+                Stats
               </p>
-
-              {/* Icon */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+              <svg xmlns="http://www.w3.org/2000/svg"
+                width="20" height="20"
                 viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                fill="none" stroke="currentColor"
+                strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                 className="mx-auto text-indigo-600 group-hover:text-indigo-800 transition"
               >
                 <path d="M5 21v-6" />
@@ -183,10 +186,6 @@ const AdminDashboard = () => {
                 <path d="M19 21V9" />
               </svg>
             </div>
-
-
-
-
 
             {/* Priority Filter */}
             <select
@@ -214,6 +213,12 @@ const AdminDashboard = () => {
           </div>
         </nav>
 
+
+
+
+
+
+
         {/* Tickets */}
         {filteredTickets.length === 0 ? (
           <p className="text-gray-500 text-center mt-10 flex justify-center align-middle ">
@@ -235,10 +240,13 @@ const AdminDashboard = () => {
                 ticket={ticket}
                 onDelete={handleDelete}
                 onUpdate={handleUpdate}
+                
               />
             ))}
           </div>
         )}
+
+
       </div>
     </div>
   );

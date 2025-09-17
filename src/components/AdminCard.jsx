@@ -6,6 +6,7 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedTicket, setEditedTicket] = useState({ ...ticket });
+  const[isDeleting, setIsDeleting] = useState(false);
 
   const getPriorityColor = (priority) => {
     switch (priority) {
@@ -31,8 +32,15 @@ const AdminCard = ({ ticket, onDelete, onUpdate }) => {
     setIsModalOpen(false);
   };
 
+  const handleDeleteClick = () => {
+    setIsDeleting(true); // trigger animation
+    setTimeout(() => {
+      onDelete(ticket.ticketId); // remove after animation finishes
+    }, 500); // matches CSS animation duration
+  };
+
   return (
-    <div className="border rounded-2xl p-5 shadow-lg hover:shadow-2xl transition duration-300 bg-white flex flex-col gap-3 w-full lora h-full min-h-[300px] max-h-[400px] overflow-hidden"
+    <div className={`border rounded-2xl p-5 shadow-lg hover:shadow-2xl transition duration-300 bg-white flex flex-col gap-3 w-full lora h-full min-h-[300px] max-h-[400px] overflow-hidden ${isDeleting ? "delete" : ""}`}
     >
       <h3 className="lg:text-2xl font-bold text-gray-800  truncate md:text-xl text-lg">{ticket.title}</h3>
       <p className="text-gray-900 line-clamp-3 md:text-sm truncate">{ticket.description}</p>

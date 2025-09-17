@@ -15,6 +15,7 @@ const CustomerDashboard = () => {
   const [userId, setUserId] = useState(null);
   const [authTickets, setAuthTickets] = useState([]);
   const [Tickets, setTickets] = useState([]);
+  const [search, SetSearch] = useState('')
 
   // Filters
   const [priorityFilter, setPriorityFilter] = useState("All");
@@ -51,7 +52,11 @@ const CustomerDashboard = () => {
       priorityFilter === "All" || ticket.priority === priorityFilter;
     const statusMatch =
       statusFilter === "All" || ticket.status === statusFilter;
-    return priorityMatch && statusMatch;
+
+    const matchSearch = ticket.title.toLowerCase().includes(search.toLowerCase());
+    return priorityMatch && statusMatch && matchSearch;
+
+    // return priorityMatch && statusMatch ;
   });
 
   const handleDelete = (ticketId) => {
@@ -140,44 +145,32 @@ const CustomerDashboard = () => {
 
       {/* Main Content - full width */}
       <div className="flex-1 p-4 overflow-auto bg-gray-50">
+
+
+
+
+
         {/* Navbar */}
-        <nav className="border p-4 flex flex-col md:flex-col lg:flex-row justify-between items-center gap-3 rounded-lg bg-white shadow-sm mb-6 border-gray-300 merriweather">
-          <p className="text-center font-bold text-2xl md:text-2xl merriweather">
-            WELCOME, {name}
-          </p>
+        <nav className="border p-4 flex flex-col lg:flex-row justify-between items-center gap-4 rounded-lg bg-white shadow-sm mb-6 border-gray-300 merriweather">
 
-          <div className="flex flex-wrap gap-3 items-center">
+          {/* Search Bar */}
+          <div className="w-full lg:w-1/2">
+            <input
+              className="w-full border p-2 rounded-lg border-gray-300 shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="Enter title for search..."
+              value={search}
+              onChange={(e) => SetSearch(e.target.value)}
+            />
+          </div>
 
-            {/* kanaban board */}
-
-            {/* 
-            <div
-              className="relative group border px-3 py-2 rounded-lg border-gray-300 shadow-md cursor-pointer hover:shadow-lg transition flex justify-center"
-              onClick={() => { navigate('/drag') }}
-            >
-              
-              <p
-                className="absolute top-5 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-6 transition-all duration-300 text-lg font-medium text-gray-700"
-              >
-                Kanaban
-              </p>
-
-             
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play-icon lucide-play"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg>
-
-
-            </div> */}
-
-
-
-
-
+          {/* Filters + Add Ticket */}
+          <div className="flex flex-wrap gap-3 items-center justify-center lg:justify-end w-full lg:w-1/2">
 
             {/* Priority Filter */}
             <select
               value={priorityFilter}
               onChange={(e) => setPriorityFilter(e.target.value)}
-              className="border px-3 py-2 rounded-lg shadow-sm border-gray-300"
+              className="border px-3 py-2 rounded-lg shadow-sm border-gray-300 cursor-pointer"
             >
               <option value="All">All Priorities</option>
               <option value="High">High</option>
@@ -189,7 +182,7 @@ const CustomerDashboard = () => {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="border px-3 py-2 rounded-lg shadow-sm border-gray-300"
+              className="border px-3 py-2 rounded-lg shadow-sm border-gray-300 cursor-pointer"
             >
               <option value="All">All Statuses</option>
               <option value="Open">Open</option>
@@ -197,14 +190,10 @@ const CustomerDashboard = () => {
               <option value="Resolved">Resolved</option>
             </select>
 
-
-
-
             {/* Add Ticket Button */}
-
             <button
               onClick={formRender}
-              className="relative group flex items-center gap-2 py-2 px-3 border rounded-xl bg-green-400 border-gray-300 text-white font-semibold hover:bg-green-500 transition cursor-pointer delay-700 duration-700"
+              className="relative group flex items-center gap-2 py-2 px-3 border rounded-xl bg-green-400 border-gray-300 text-white font-semibold hover:bg-green-500 transition duration-300 cursor-pointer"
             >
               {/* Icon */}
               <svg
@@ -224,20 +213,11 @@ const CustomerDashboard = () => {
                 <path d="M4 11V4a2 2 0 0 1 2-2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h7" />
               </svg>
 
-              {/* Text appears only on hover */}
-              <p
-                className="absolute top-5 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-6 transition-all duration-300 text-lg font-medium text-gray-700"
-              >
+              {/* Text on hover */}
+              <p className="absolute top-5 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-6 transition-all duration-300 text-lg font-medium text-gray-700">
                 AddTickets
               </p>
             </button>
-
-
-
-
-
-
-
           </div>
         </nav>
 
@@ -268,8 +248,11 @@ const CustomerDashboard = () => {
           </div>
         )}
 
+
+
+
         {/* All Tickets */}
-        <h1 className="text-2xl font-semibold text-center underline mt-5 open-sans">
+        {/* <h1 className="text-2xl font-semibold text-center underline mt-5 open-sans">
           All Tickets
         </h1>
         {Tickets.length === 0 ? (
@@ -289,7 +272,11 @@ const CustomerDashboard = () => {
               <Card key={index} ticket={ticket} />
             ))}
           </div>
-        )}
+        )} */}
+
+
+
+
       </div>
     </div>
   );
