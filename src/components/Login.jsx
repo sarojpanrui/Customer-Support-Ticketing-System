@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import loginImg from "../assets/loginImg.png";
+import bcrypt from "bcryptjs";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -15,7 +16,7 @@ const Login = () => {
     const users = JSON.parse(localStorage.getItem("users")) || [];
 
     const foundUser = users.find(
-      (u) => u.username === username && u.password === password
+      (u) => u.username === username && bcrypt.compare(u.password,password)
     );
 
     

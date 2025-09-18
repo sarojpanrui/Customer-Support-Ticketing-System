@@ -14,6 +14,7 @@ import Paper from "@mui/material/Paper";
 const Report = () => {
     const [users, setUsers] = useState([]);
     const [tickets, setTickets] = useState([]);
+    const[comments,setComments] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,6 +23,9 @@ const Report = () => {
 
         const storedTickets = JSON.parse(localStorage.getItem("tickets")) || [];
         setTickets(storedTickets);
+
+        const storedComment = JSON.parse(localStorage.getItem('comments'))||[];
+        setComments(storedComment);
     }, []);
 
     function countPriorities(tickets) {
@@ -53,6 +57,10 @@ const Report = () => {
 
     function ticketAddCnt(userId) {
         return tickets.filter((t) => t.id === userId).length;
+    }
+
+    function commentAddCnt(userId) {
+        return comments.filter((t) => t.createdBy === userId).length;
     }
 
 
@@ -136,26 +144,71 @@ const Report = () => {
                     />
                 </div>
 
-                {/* Total Tickets LineChart */}
-                <div className="bg-white shadow-md rounded-2xl p-6 text-center hover:shadow-lg transition">
-                    <h2 className="text-lg font-semibold text-gray-700 mb-4">
-                        Total Tickets
-                    </h2>
-                    <p className="text-2xl font-bold text-indigo-600 mb-4">
-                        {tickets.length}
-                    </p>
-                    {/* Example line chart: daily tickets count */}
-                    <LineChart
-                        xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
-                        series={[
-                            {
-                                data: [2, 5.5, 2, 8.5, 1.5, 5],
-                            },
-                        ]}
-                        height={300}
-                    />
+
+
+
+
+                <div className="bg-white shadow-md rounded-2xl p-6">
+                    {/* Total Tickets */}
+                    <h1 className="text-lg font-bold text-gray-800 mb-4 text-center">
+                        Total Tickets = {ocnt + processcnt + rescnt}
+                    </h1>
+
+                    {/* Table */}
+                    <TableContainer component={Paper} className="rounded-xl shadow-sm">
+                        <Table sx={{ minWidth: 300 }} aria-label="users table">
+                            <TableHead>
+                                <TableRow className="bg-gray-100">
+                                    <TableCell className="font-semibold text-gray-700 text-lg">
+                                        Username
+                                    </TableCell>
+                                    <TableCell className="font-semibold text-gray-700 text-lg text-center">
+                                        No. of Tickets Added
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {users.length > 0 ? (
+                                    users
+                                        .filter((u) => u.role.toLowerCase() !== "admin")
+                                        .map((user) => (
+                                            <TableRow
+                                                key={user.id}
+                                                className="hover:bg-gray-50 transition-colors"
+                                            >
+                                                <TableCell className="text-gray-800 font-medium">
+                                                    {user.username}
+                                                </TableCell>
+                                                <TableCell className="text-center text-indigo-600 font-bold">
+                                                    {ticketAddCnt(user.id)}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={2} className="text-center text-gray-500 py-4">
+                                            No users found
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </div>
+
+
+
+
+
+
+
             </div>
+
+
+
+
+
+
 
             <h1 className=" text-4xl md:text-5xl font-bold text-center text-gray-800 mb-10">Registered Users</h1>
 
@@ -169,6 +222,7 @@ const Report = () => {
                             <TableCell>Email</TableCell>
                             <TableCell>Role</TableCell>
                             <TableCell>No of Ticket Added</TableCell>
+                            <TableCell>No of comments Added</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -180,6 +234,8 @@ const Report = () => {
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{user.role}</TableCell>
                                     <TableCell className=" justify-center align-middle flex">{ticketAddCnt(user.id)}</TableCell>
+                                    <TableCell className=" justify-center align-middle flex">{commentAddCnt(user.id)}</TableCell>
+
                                 </TableRow>
                             ))
                         ) : (

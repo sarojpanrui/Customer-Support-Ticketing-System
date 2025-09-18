@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import signup from "../assets/singup.png";
+import bcrypt from "bcryptjs";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const Signup = () => {
       role: "Customer",
     },
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit:async (values) => {
      
       const users = JSON.parse(localStorage.getItem("users")) || [];
 
@@ -40,7 +41,8 @@ const Signup = () => {
         return;
       }
 
-      const newUser = { id: Date.now(), ...values };
+      const hashpassword=await bcrypt.hash(values.password,10);
+      const newUser = { id: Date.now(), ...values, password:hashpassword };
       users.push(newUser);
       localStorage.setItem("users", JSON.stringify(users));
 
