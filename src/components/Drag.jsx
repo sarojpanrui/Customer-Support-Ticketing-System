@@ -36,6 +36,29 @@ export default function KanbanDashboard() {
         setDraggedTicketId(null);
     };
 
+    const getborderColor = (priority) => {
+        switch (priority) {
+            case "High": return "border-3 border-red-800";
+            case "Medium": return "border-3 border-yellow-800";
+            case "Low": return "border-3 border-green-800";
+            default: return "border border-red-300";
+        }
+    };
+
+    const getbgColor = (priority) => {
+        switch (priority) {
+            case "High":
+                return "bg-rose-400 text-white shadow-lg";   
+            case "Medium":
+                return "bg-amber-300 text-black shadow-lg";
+            case "Low":
+                return "bg-teal-300 text-black shadow-lg"; 
+            default:
+                return "bg-slate-200 text-white shadow-lg"; 
+        }
+    };
+
+
     // Drop on Delete Zone
     const handleDeleteDrop = (e) => {
         e.preventDefault();
@@ -100,10 +123,10 @@ export default function KanbanDashboard() {
                     >
                         <h2
                             className={`font-bold mb-4 text-center text-lg tracking-wide ${priority === "High"
-                                    ? "text-red-500"
-                                    : priority === "Medium"
-                                        ? "text-yellow-500"
-                                        : "text-green-500"
+                                ? "text-red-500"
+                                : priority === "Medium"
+                                    ? "text-yellow-500"
+                                    : "text-green-500"
                                 }`}
                         >
                             {priority} Priority
@@ -118,15 +141,15 @@ export default function KanbanDashboard() {
                                         draggable
                                         onDragStart={(e) => handleDragStart(e, ticket.ticketId)}
                                         onClick={() => handleTicketClick(ticket.ticketId)}
-                                        className="p-4 border border-gray-200 rounded-xl bg-gradient-to-r from-white to-gray-50 cursor-grab hover:shadow-md hover:scale-[1.02] transition transform"
+                                        className={`p-4  border-gray-200 rounded-xl  cursor-grab hover:shadow-md hover:scale-[1.02] transition transform border-2 ${getborderColor(priority)} ${getbgColor(priority)}`}
                                     >
-                                        <h3 className="font-semibold text-gray-800 truncate">
+                                        <h3 className="font-semibold  text-white-900 truncate">
                                             {ticket.title}
                                         </h3>
-                                        <p className="text-sm text-gray-600 truncate">
+                                        <p className="text-sm  text-white-900 truncate">
                                             {ticket.description}
                                         </p>
-                                        <p className="text-sm text-black truncate flex  font-bold">
+                                        <p className="text-sm  text-white-900 truncate flex  font-bold">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 width="24"
@@ -160,7 +183,7 @@ export default function KanbanDashboard() {
                 className="mt-8 mx-auto w-48 h-20 bg-red-100 border-2 border-red-400 rounded-xl flex items-center justify-center text-red-600 font-bold cursor-pointer hover:bg-red-200 transition"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-icon lucide-trash"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
-                
+
             </div>
         </div>
     );
